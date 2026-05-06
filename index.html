@@ -1,1 +1,686 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karan Soni — Incident Response Portfolio</title>
+<meta name="description" content="Cybersecurity incident response portfolio by Karan Soni — SOC analyst, SIEM, network traffic analysis.">
+<meta property="og:title" content="Karan Soni — Cybersecurity Portfolio">
+<meta property="og:description" content="Interactive incident response portfolio. SOC analyst candidate.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='9' fill='%230a1724'/%3E%3Crect x='0.75' y='0.75' width='34.5' height='34.5' rx='8.25' stroke='%2369d6ff' stroke-width='1.5' stroke-opacity='0.6' fill='none'/%3E%3Cline x1='8' y1='9' x2='8' y2='27' stroke='%2369d6ff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='8' y1='18' x2='16' y2='9' stroke='%2369d6ff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='8' y1='18' x2='16.5' y2='27' stroke='%2369d6ff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M28 11.5 C28 11.5 24.5 9 21.5 10.5 C18.5 12 19 15 21.5 16.5 C24 18 28 18.5 28 22 C28 25.5 24 27.5 21 27' stroke='%235ff0cf' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ───────────────────────────────────────── */
+:root{
+  --bg:#04121b;--solid:#071d2b;--card:#0c2336;--border:rgba(105,214,255,.12);
+  --line2:rgba(105,214,255,.28);--text:#d4eaf7;--muted:#6a8fa8;
+  --cyan:#69d6ff;--teal:#5ff0cf;--red:#ff5f6d;
+  --font:'Space Grotesk',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --nav:64px;
+  --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+  --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+  --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;
+}
+/* ── RESET ────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 16px);-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:var(--text-base);line-height:1.6;min-height:100dvh;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(105,214,255,.18);color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+
+/* ── NAV ──────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav);z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(var(--space-4),4vw,var(--space-10));
+  background:rgba(4,18,27,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700;font-size:var(--text-sm);letter-spacing:.03em}
+.brand-logo{width:32px;height:32px;flex-shrink:0}
+.nav-links{display:flex;gap:var(--space-1);list-style:none}
+.nav-links a{padding:var(--space-2) var(--space-3);border-radius:6px;font-size:var(--text-sm);color:var(--muted);transition:color .18s,background .18s}
+.nav-links a:hover,.nav-links a.active{color:var(--cyan);background:rgba(105,214,255,.08)}
+.nav-right{display:flex;align-items:center;gap:var(--space-3)}
+#menuBtn{display:none;padding:var(--space-2);border-radius:6px;color:var(--muted)}
+#menuBtn:hover{color:var(--cyan);background:rgba(105,214,255,.08)}
+.mobile-menu{display:none;position:fixed;inset:var(--nav) 0 0;background:rgba(4,18,27,.97);backdrop-filter:blur(16px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-6)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:var(--text-xl);font-weight:700;color:var(--muted);min-height:44px;display:flex;align-items:center;transition:color .18s}
+.mobile-menu a:hover{color:var(--cyan)}
+
+/* ── LAYOUT ───────────────────────────────────────── */
+.wrap{max-width:1160px;margin-inline:auto;padding-inline:clamp(var(--space-4),4vw,var(--space-10))}
+section{padding-block:clamp(var(--space-12),8vw,var(--space-16))}
+.section-label{display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-xs);font-family:var(--mono);letter-spacing:.12em;color:var(--cyan);text-transform:uppercase;margin-bottom:var(--space-6)}
+.section-label::before{content:'';display:block;width:28px;height:2px;background:var(--cyan);flex-shrink:0}
+
+/* ── CARDS ────────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:var(--space-6);transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--line2);box-shadow:0 0 24px rgba(105,214,255,.06)}
+
+/* ── PILLS / BADGES ───────────────────────────────── */
+.pill{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:999px;border:1px solid var(--line2);font-size:var(--text-xs);font-family:var(--mono);color:var(--cyan);background:rgba(105,214,255,.06)}
+.live{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(95,240,207,.5)}50%{box-shadow:0 0 0 5px rgba(95,240,207,0)}}
+
+/* ── BUTTONS ──────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-6);border-radius:8px;font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:background .18s,color .18s,box-shadow .18s,transform .12s;border:none;text-decoration:none}
+.btn.primary{background:var(--cyan);color:#04121b}
+.btn.primary:hover{background:#a8e8ff;box-shadow:0 0 16px rgba(105,214,255,.3);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn.ghost:hover{border-color:var(--line2);color:var(--cyan)}
+
+/* ── TAGS ─────────────────────────────────────────── */
+.tags{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.tag{padding:var(--space-1) var(--space-3);border-radius:6px;border:1px solid var(--border);font-size:var(--text-xs);font-family:var(--mono);color:var(--muted);background:rgba(255,255,255,.02);transition:transform .15s var(--ease),border-color .15s,background .15s}
+.tag:hover{transform:translateY(-2px) scale(1.04);border-color:var(--line2);background:color-mix(in srgb,var(--cyan) 12%,var(--solid))}
+
+/* ── HERO ─────────────────────────────────────────── */
+#hero{padding-top:calc(var(--nav) + clamp(var(--space-12),8vw,var(--space-16)));padding-bottom:clamp(var(--space-12),8vw,var(--space-16))}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(var(--space-8),5vw,var(--space-12));align-items:start}
+.hero-name{font-size:var(--text-2xl);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:var(--space-4) 0 var(--space-3)}
+.hero-lead{font-size:var(--text-lg);color:var(--muted);max-width:48ch;line-height:1.6;margin-bottom:var(--space-5)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-bottom:var(--space-5)}
+.socials{display:flex;gap:var(--space-3);margin-bottom:var(--space-6)}
+.social{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;border:1px solid var(--border);color:var(--muted);transition:transform .2s var(--ease),border-color .2s,box-shadow .2s,color .2s}
+.social:hover{transform:translateY(-4px) scale(1.08);box-shadow:0 8px 20px rgba(105,214,255,.18);border-color:var(--line2);color:var(--cyan)}
+.social:active{transform:translateY(-1px) scale(1.02)}
+.hero-foot{font-size:var(--text-xs);font-family:var(--mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase;opacity:.6}
+
+/* ── TERMINAL CMD ─────────────────────────────────── */
+.cmd{font-family:var(--mono);font-size:var(--text-sm);padding:var(--space-5);min-height:220px}
+.cmd-bar{display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--border)}
+.dot{width:10px;height:10px;border-radius:50%}
+.cmd-body{display:flex;flex-direction:column;gap:var(--space-2)}
+.cmd-line{color:var(--muted);display:flex;gap:var(--space-2)}
+.cmd-line .prompt{color:var(--cyan);flex-shrink:0}
+.cmd-line .val{color:var(--teal)}
+.cursor{display:inline-block;width:2px;height:1.1em;background:var(--cyan);vertical-align:text-bottom;animation:blink 1s step-end infinite;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+.tab-bar{display:flex;gap:var(--space-2);margin-top:var(--space-4);flex-wrap:wrap}
+.tab{padding:var(--space-1) var(--space-3);border-radius:6px;border:1px solid var(--border);font-size:var(--text-xs);font-family:var(--mono);color:var(--muted);cursor:pointer;transition:all .18s}
+.tab.active,.tab:hover{color:var(--cyan);border-color:var(--line2);background:rgba(105,214,255,.06)}
+
+/* ── ICON CELLS ───────────────────────────────────── */
+.icon{width:40px;height:40px;border-radius:8px;background:rgba(105,214,255,.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0}
+
+/* ── SKILLS ───────────────────────────────────────── */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.skill-card{display:flex;flex-direction:column;gap:var(--space-3)}
+.skill-card h3{font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-1)}
+
+/* ── CREDS (edu + certs) ──────────────────────────── */
+.cred{display:flex;align-items:flex-start;gap:var(--space-4)}
+.cred .meta{display:flex;gap:var(--space-4);flex-wrap:wrap;margin-top:var(--space-2)}
+.cred .meta span{font-size:var(--text-xs);font-family:var(--mono);color:var(--muted)}
+.cred-grid{display:flex;flex-direction:column;gap:var(--space-4)}
+
+/* ── EXPERIENCE ───────────────────────────────────── */
+.exphead{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;margin-bottom:var(--space-4)}
+.exptitle{display:flex;align-items:center;gap:var(--space-4)}
+.avatar{width:48px;height:48px;border-radius:10px;background:rgba(105,214,255,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0}
+.expbullets{display:flex;flex-direction:column;gap:var(--space-2);list-style:none}
+.expbullets li{display:flex;gap:var(--space-3);font-size:var(--text-sm);color:var(--muted)}
+.expbullets li::before{content:'▸';color:var(--cyan);flex-shrink:0;margin-top:2px}
+
+/* ── PROJECTS ─────────────────────────────────────── */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:var(--space-5)}
+.project{display:flex;flex-direction:column;gap:var(--space-3)}
+.project h3{font-size:var(--text-base);font-weight:700}
+.project p{font-size:var(--text-sm);color:var(--muted);flex:1}
+.proj-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-2)}
+
+/* ── INCIDENT / STAGES ────────────────────────────── */
+.incident-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:var(--space-5)}
+.stage-num{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;border:1px solid var(--border);font-family:var(--mono);font-size:var(--text-sm);color:var(--cyan);flex-shrink:0}
+.open-stage{font-size:var(--text-xs);font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:flex-end;margin-bottom:var(--space-4)}
+.stage-meta{display:flex;gap:var(--space-3);align-items:center;margin-bottom:var(--space-3)}
+
+/* ── CONTACTS ─────────────────────────────────────── */
+.contacts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--space-4)}
+.contact{display:flex;align-items:center;gap:var(--space-4);transition:border-color .2s,box-shadow .2s}
+.contact:hover{border-color:var(--line2);box-shadow:0 0 24px rgba(105,214,255,.06)}
+
+/* ── REVEAL (scroll) ──────────────────────────────── */
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── FOOTER ───────────────────────────────────────── */
+footer{text-align:center;padding:var(--space-8);border-top:1px solid var(--border);font-size:var(--text-xs);font-family:var(--mono);color:var(--muted);letter-spacing:.08em}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media(max-width:1000px){
+  .hero-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  #menuBtn{display:flex;align-items:center;justify-content:center}
+  .skills-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column}
+  .btn{justify-content:center}
+}
+
+/* =========================================================
+   SUBTLE ANIMATIONS — HERO & INCIDENT SECTION
+   ========================================================= */
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hero-animate>*{opacity:0;animation:fadeSlideUp .7s var(--ease) forwards}
+.hero-animate>*:nth-child(1){animation-delay:.05s}
+.hero-animate>*:nth-child(2){animation-delay:.18s}
+.hero-animate>*:nth-child(3){animation-delay:.30s}
+.hero-animate>*:nth-child(4){animation-delay:.42s}
+.hero-animate>*:nth-child(5){animation-delay:.54s}
+.hero-animate>*:nth-child(6){animation-delay:.64s}
+.hero-animate>*:nth-child(7){animation-delay:.72s}
+.cmd-animate{opacity:0;animation:cmdEntrance .9s var(--ease) .3s forwards}
+@keyframes cmdEntrance{from{opacity:0;transform:translateX(28px) scale(.97)}to{opacity:1;transform:translateX(0) scale(1)}}
+.stage-card{overflow:hidden;position:relative}
+.stage-card::after{content:'';position:absolute;top:-100%;left:0;right:0;height:40%;background:linear-gradient(180deg,transparent,rgba(105,214,255,.04) 50%,transparent);animation:scanline 4s ease-in-out infinite;pointer-events:none;z-index:2}
+.stage-card:nth-child(2)::after{animation-delay:.6s}
+.stage-card:nth-child(3)::after{animation-delay:1.2s}
+.stage-card:nth-child(4)::after{animation-delay:1.8s}
+.stage-card:nth-child(5)::after{animation-delay:2.4s}
+.stage-card:nth-child(6)::after{animation-delay:3.0s}
+@keyframes scanline{0%{top:-40%}60%{top:120%}100%{top:120%}}
+.case-label{position:relative}
+.case-label::before{content:attr(data-text);position:absolute;left:0;color:var(--cyan);clip-path:inset(0 0 0 0);animation:glitchFlicker 8s steps(1) infinite;opacity:0}
+@keyframes glitchFlicker{0%,94%,100%{opacity:0;transform:none}95%{opacity:.8;transform:translateX(-2px);clip-path:inset(20% 0 60% 0)}96%{opacity:0}97%{opacity:.6;transform:translateX(2px);clip-path:inset(60% 0 10% 0)}98%{opacity:0}}
+.word-reveal .word{display:inline-block;opacity:0;transform:translateY(12px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.word-reveal.visible .word{opacity:1;transform:translateY(0)}
+.word-reveal.visible .word:nth-child(1){transition-delay:.00s}
+.word-reveal.visible .word:nth-child(2){transition-delay:.08s}
+.word-reveal.visible .word:nth-child(3){transition-delay:.16s}
+.word-reveal.visible .word:nth-child(4){transition-delay:.24s}
+.word-reveal.visible .word:nth-child(5){transition-delay:.32s}
+.word-reveal.visible .word:nth-child(6){transition-delay:.40s}
+.btn.primary{position:relative;overflow:hidden}
+.btn.primary::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:left .5s ease;pointer-events:none}
+.btn.primary:hover::after{left:120%}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- SKIP LINK -->
+<a class="sr-only" href="#main" style="position:absolute;top:-999px;left:-999px;z-index:999;background:var(--cyan);color:#04121b;padding:var(--space-3) var(--space-6);border-radius:8px;font-weight:700;transition:top .2s" onfocus="this.style.top='8px';this.style.left='8px'" onblur="this.style.top='-999px';this.style.left='-999px'">Skip to content</a>
+
+<!-- NAV -->
+<nav role="navigation" aria-label="Main navigation">
+  <a class="brand" href="#hero">
+    <svg class="brand-logo" aria-label="KS logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="8" fill="url(#lg)"/>
+      <text x="16" y="22" font-size="14" font-weight="900" text-anchor="middle" fill="#04121b" font-family="monospace">KS</text>
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#69d6ff"/><stop offset="1" stop-color="#5ff0cf"/></linearGradient></defs>
+    </svg>
+    Karan Soni
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="#hero" class="active">Overview</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#incident">Investigation</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button id="menuBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile navigation">
+  <button id="closeMenu" aria-label="Close navigation menu" style="position:absolute;top:20px;right:20px;color:var(--muted);padding:var(--space-2)">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="#hero" onclick="closeMobileMenu()">Overview</a>
+  <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+  <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+  <a href="#education" onclick="closeMobileMenu()">Education</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#incident" onclick="closeMobileMenu()">Investigation</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section id="hero" aria-label="Hero introduction">
+<div class="wrap">
+  <div class="hero-grid">
+    <div class="reveal hero-animate">
+      <div class="pill"><span class="live"></span>Interactive Incident Portfolio</div>
+      <h1 class="hero-name">Karan Soni</h1>
+      <p class="hero-lead">Cybersecurity analyst candidate specialising in incident response, SIEM, and network traffic analysis. Open to SOC and blue-team roles.</p>
+      <div class="tags" style="margin-bottom:var(--space-5)">
+        <span class="tag">SIEM / Splunk</span>
+        <span class="tag">Wireshark</span>
+        <span class="tag">Incident Response</span>
+        <span class="tag">MITRE ATT&CK</span>
+        <span class="tag">Network Analysis</span>
+        <span class="tag">Log Analysis</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn primary" href="#incident">Start Case</a>
+        <a class="btn ghost" href="#incident">Guided Investigation</a>
+        <a class="btn ghost" href="#contact">Contact</a>
+      </div>
+      <div class="socials" aria-label="Social links">
+        <a class="social" href="mailto:karansoni@example.com" aria-label="Email Karan Soni">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </a>
+        <a class="social" href="https://github.com/karansoni8" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </a>
+        <a class="social" href="https://linkedin.com/in/karansoni8" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+      <p class="hero-foot case-label" data-text="CASE KS-2026 — AUTH ANOMALY — PORTFOLIO EVIDENCE">CASE KS-2026 — AUTH ANOMALY — PORTFOLIO EVIDENCE</p>
+    </div>
+
+    <aside class="card cmd reveal cmd-animate" aria-label="Terminal overview">
+      <div class="cmd-bar">
+        <span class="dot" style="background:#ff5f57"></span>
+        <span class="dot" style="background:#febc2e"></span>
+        <span class="dot" style="background:#28c840"></span>
+        <span style="font-size:var(--text-xs);color:var(--muted);margin-left:auto">analyst@ks-portfolio ~ </span>
+      </div>
+      <div class="cmd-body" id="cmdBody">
+        <div class="cmd-line"><span class="prompt">$</span><span>whoami</span></div>
+        <div class="cmd-line"><span class="val" id="cmdOut"></span><span class="cursor" id="cmdCursor"></span></div>
+      </div>
+      <div class="tab-bar" role="tablist" aria-label="Portfolio sections">
+        <button class="tab active" role="tab" aria-selected="true" onclick="typeCmd('overview')">OVERVIEW</button>
+        <button class="tab" role="tab" aria-selected="false" onclick="typeCmd('skills')">SKILLS</button>
+        <button class="tab" role="tab" aria-selected="false" onclick="typeCmd('certs')">CERTS</button>
+        <button class="tab" role="tab" aria-selected="false" onclick="typeCmd('contact')">CONTACT</button>
+      </div>
+    </aside>
+  </div>
+</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" aria-label="Skills">
+<div class="wrap">
+  <div class="section-label">Technical Skills</div>
+  <div class="skills-grid" id="skillsGrid"></div>
+</div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" aria-label="Work experience">
+<div class="wrap">
+  <div class="section-label">Experience</div>
+  <div id="experienceList"></div>
+</div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" aria-label="Education and certifications">
+<div class="wrap">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-10)">
+    <div>
+      <div class="section-label">Education</div>
+      <div class="cred-grid" id="educationList"></div>
+    </div>
+    <div>
+      <div class="section-label">Certifications</div>
+      <div class="cred-grid" id="certList"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" aria-label="Projects">
+<div class="wrap">
+  <div class="section-label">Projects</div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</div>
+</section>
+
+<!-- INCIDENT INVESTIGATION -->
+<section id="incident" aria-label="Incident investigation stages">
+<div class="wrap">
+  <div class="section-label">Incident Scenario</div>
+  <h2 class="word-reveal" style="font-size:var(--text-2xl);font-weight:800;line-height:1.1;margin-bottom:var(--space-4)"><span class="word">Stage-by-stage</span> <span class="word">portfolio</span> <span class="word">investigation.</span></h2>
+  <p style="color:var(--muted);max-width:60ch;margin-bottom:var(--space-8)">The walkthrough follows a realistic analyst flow — triage the alert, correlate telemetry, review response history, inspect project artifacts, validate credentials, and close the case with contact details.</p>
+  <div class="incident-grid" id="incidentGrid"></div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" aria-label="Contact information">
+<div class="wrap">
+  <div class="section-label">Contact</div>
+  <div class="contacts-grid" id="contactList"></div>
+</div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 Karan Soni — Cybersecurity Portfolio &nbsp;·&nbsp; Built for recruiters and hiring managers</p>
+</footer>
+
+<script>
+/* ─── DATA ───────────────────────────────────────────── */
+const data = {
+  skills: [
+    {title:'SIEM & Detection', icon:'siem', items:['Splunk (queries, dashboards)','IBM QRadar basics','Log correlation & alerting','Custom detection rules']},
+    {title:'Network Analysis', icon:'net', items:['Wireshark packet inspection','TCP/IP, DNS, HTTP/S','Protocol anomaly detection','Traffic baselining']},
+    {title:'Incident Response', icon:'ir', items:['NIST IR lifecycle','Containment & eradication','Evidence collection','Post-incident reporting']},
+    {title:'Threat Intelligence', icon:'ti', items:['MITRE ATT&CK mapping','IOC identification','Threat hunting basics','Open-source OSINT']},
+    {title:'Infrastructure', icon:'infra', items:['Active Directory / LDAP','Linux (Ubuntu, Kali)','Windows Server basics','Virtualisation (VMware)']},
+    {title:'Programming', icon:'code', items:['Python (automation, parsing)','Java fundamentals','C# basics','Bash scripting']},
+  ],
+
+  experience: [
+    {
+      role:'QA Tester — ERP Security',
+      company:'Logic Play (Acumatica ERP)',
+      period:'2024 – 2025',
+      location:'Remote',
+      bullets:[
+        'Executed 200+ test cases covering CRUD workflows, access-control boundaries, and regression suites.',
+        'Identified and documented 18 security-adjacent bugs including privilege-escalation edge cases in role management.',
+        'Collaborated with developers to reproduce, triage, and verify fixes within sprint cycles.',
+        'Authored test plans mapping to OWASP Top 10 categories for authentication and session management modules.',
+      ],
+      icon:'qa',
+    },
+  ],
+
+  education: [
+    ['Cybersecurity Graduate Certificate', 'Durham College, Oshawa, ON', 'Jan 2026 – Aug 2026', 'edu_cyber'],
+    ['Network Management with Cisco and Microsoft', 'LaSalle College, Montreal, QC', 'May 2024 – Sep 2025', 'edu_network'],
+    ['Bachelor of Computer Applications (BCA)', 'Parul University, Vadodara, India', 'Jun 2019 – Jun 2022', 'edu_degree'],
+  ],
+
+  certs: [
+    ['CCNA Enterprise Networking, Security, and Automation', 'Cisco', 'Certified', 'cert_ccna'],
+    ['CompTIA CySA+', 'CompTIA', 'In Progress', 'cert_cysa'],
+    ['CompTIA Network+', 'CompTIA', 'Certified', 'cert_net'],
+  ],
+
+  projects: [
+    {title:'SIEM Alert Triage Lab',desc:'Built a Splunk home lab ingesting Windows Event Logs and Sysmon data. Created correlation searches detecting brute-force, lateral movement, and persistence TTPs.',tags:['Splunk','Sysmon','Windows'],icon:'proj_siem',link:'#'},
+    {title:'Phishing Campaign Analysis',desc:'Investigated a simulated phishing campaign end-to-end: header analysis, URL sandboxing, payload extraction, and IOC reporting in a structured incident report.',tags:['Email Security','OSINT','Reporting'],icon:'proj_phish',link:'#'},
+    {title:'Network Traffic Analysis',desc:'Captured and analysed 10K+ packets with Wireshark. Identified C2 beaconing patterns, DNS tunnelling, and ARP spoofing using display filter scripting.',tags:['Wireshark','TCP/IP','Threat Hunting'],icon:'proj_traffic',link:'#'},
+  ],
+
+  incident: [
+    {n:1,label:'Incident Scenario',title:'Alert Triage',desc:'A SIEM alert fires: 47 failed auth attempts from IP 203.0.113.42 in 90 seconds. Classify the alert, determine severity, and decide escalation path.',tags:['SIEM','Triage','Severity'],icon:'siem'},
+    {n:2,label:'Incident Scenario',title:'Telemetry Correlation',desc:'Pull Sysmon and network flow logs for the affected host. Correlate process creation events with outbound connections to identify the attack vector.',tags:['Logs','Correlation','Sysmon'],icon:'net'},
+    {n:3,label:'Incident Scenario',title:'Threat Attribution',desc:'Map observed TTPs to MITRE ATT&CK. Identify adversary techniques and cross-reference with threat intelligence feeds for attribution context.',tags:['MITRE','Threat Intel','ATT&CK'],icon:'ti'},
+    {n:4,label:'Project Evidence',title:'Response History',desc:'Review past incident response exercises and project artifacts. Evaluate containment decisions and post-incident documentation quality.',tags:['IR','Documentation','Evidence'],icon:'ir'},
+    {n:5,label:'Credentials',title:'Skill Validation',desc:'Verify certifications, academic credentials, and technical skill breadth. Assess readiness for SOC Tier 1/2 analyst responsibilities.',tags:['Certs','Education','Skills'],icon:'edu_cyber'},
+    {n:6,label:'Case Closure',title:'Contact & Close',desc:'Case KS-2026 analysis complete. Reach out to discuss the investigation findings, open a new case, or explore hiring opportunities.',tags:['Contact','Hiring','SOC'],icon:'proj_siem'},
+  ],
+
+  contacts: [
+    ['Email','karansoni@example.com','mailto:karansoni@example.com','✉️'],
+    ['LinkedIn','linkedin.com/in/karansoni8','https://linkedin.com/in/karansoni8','🔗'],
+    ['GitHub','github.com/karansoni8','https://github.com/karansoni8','💻'],
+    ['Location','Toronto / Oshawa, Ontario, CA',null,'📍'],
+  ],
+
+  cmdOutputs: {
+    overview: ['Karan Soni — Cybersecurity Analyst Candidate','SOC | Incident Response | SIEM | Blue Team','Status: actively seeking analyst roles','LinkedIn and GitHub links active'],
+    skills:   ['Core: SIEM · Splunk · Wireshark · IR','Frameworks: NIST · MITRE ATT&CK','Languages: Python · Java · Bash','OS: Linux (Kali) · Windows Server'],
+    certs:    ['[✓] CCNA Enterprise Networking','[✓] CompTIA Network+','[~] CompTIA CySA+ (in progress)','Run: certList.open() for details'],
+    contact:  ['Email: karansoni@example.com','LinkedIn: /in/karansoni8','GitHub: /karansoni8','analysis complete'],
+  },
+};
+
+/* ─── SVG ICON MAP ───────────────────────────────────── */
+const svgIcons = {
+  siem: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  net:  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="12" y1="8" x2="5" y2="16"/><line x1="12" y1="8" x2="19" y2="16"/></svg>`,
+  ir:   `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  ti:   `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>`,
+  infra:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
+  code: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  qa:   `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  proj_siem: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+  proj_phish:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+  proj_traffic:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  edu_cyber: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
+  edu_network:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="10" r="3"/></svg>`,
+  edu_degree: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+  cert_ccna:  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+  cert_cysa:  `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>`,
+  cert_net:   `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><path d="M5 8v4h14V8M12 12v4"/></svg>`,
+};
+
+/* ─── HELPERS ────────────────────────────────────────── */
+function safe(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function setHTML(id,html){ const el=document.getElementById(id); if(el) el.innerHTML=html.join ? html.join('') : html }
+
+/* ─── RENDER SKILLS ──────────────────────────────────── */
+function renderSkills(){
+  setHTML('skillsGrid', data.skills.map(s=>
+    `<article class="card skill-card reveal">
+       <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3)">
+         <div class="icon">${svgIcons[s.icon]||''}</div>
+         <h3>${safe(s.title)}</h3>
+       </div>
+       <ul class="expbullets">${s.items.map(i=>`<li>${safe(i)}</li>`).join('')}</ul>
+     </article>`
+  ));
+}
+
+/* ─── RENDER EXPERIENCE ──────────────────────────────── */
+function renderExperience(){
+  const cards = data.experience.map(e=>
+    `<article class="card reveal" style="margin-bottom:var(--space-5)">
+       <div class="exphead">
+         <div class="exptitle">
+           <div class="avatar">${svgIcons[e.icon]||''}</div>
+           <div>
+             <strong>${safe(e.role)}</strong><br>
+             <span class="muted" style="font-size:var(--text-sm);color:var(--muted)">${safe(e.company)} &bull; ${safe(e.location)} &bull; ${safe(e.period)}</span>
+           </div>
+         </div>
+       </div>
+       <ul class="expbullets">${e.bullets.map(b=>`<li>${safe(b)}</li>`).join('')}</ul>
+     </article>`
+  );
+
+  cards.push(`
+    <article class="card experience reveal" style="border:1px dashed var(--line2);background:color-mix(in srgb,var(--solid) 60%,transparent);margin-top:var(--space-5)">
+      <div class="exphead">
+        <div class="exptitle">
+          <div class="avatar" style="background:linear-gradient(135deg,rgba(105,214,255,.15),rgba(95,240,207,.10));color:var(--cyan);border:1px dashed var(--line2)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <strong style="color:var(--cyan)">Your Company Name Here</strong><br>
+            <span class="muted" style="font-size:var(--text-sm);color:var(--muted)">Security Analyst / SOC Role &bull; Your Location &bull; 2026 – Present</span>
+          </div>
+        </div>
+        <div class="pill" style="border-style:dashed;opacity:.75">OPEN ROLE</div>
+      </div>
+      <div style="padding:var(--space-4) 0 var(--space-2);text-align:center">
+        <p style="color:var(--muted);font-size:var(--text-sm);max-width:52ch;margin-inline:auto;line-height:1.7">
+          This spot is reserved for you. 😊<br>
+          I'm actively looking for a <strong style="color:var(--text)">SOC Analyst, Security Analyst, or Blue Team</strong> role where I can bring my SIEM, traffic analysis, and incident response skills to your team.
+        </p>
+        <a class="btn primary" href="#contact" style="margin:var(--space-5) auto 0;display:inline-flex">Let's talk →</a>
+      </div>
+    </article>`
+  );
+
+  setHTML('experienceList', cards);
+}
+
+/* ─── RENDER EDUCATION & CERTS ───────────────────────── */
+function renderEducation(){
+  setHTML('educationList', data.education.map(x =>
+    `<article class="card cred reveal">
+       <div class="icon">${svgIcons[x[3]] || safe(x[3])}</div>
+       <div>
+         <h3>${safe(x[0])}</h3>
+         <div class="meta"><span>${safe(x[1])}</span><span>${safe(x[2])}</span></div>
+       </div>
+     </article>`
+  ));
+  setHTML('certList', data.certs.map(x =>
+    `<article class="card cred reveal">
+       <div class="icon">${svgIcons[x[3]] || safe(x[3])}</div>
+       <div>
+         <h3>${safe(x[0])}</h3>
+         <div class="meta"><span>${safe(x[1])}</span><span>${safe(x[2])}</span></div>
+       </div>
+     </article>`
+  ));
+}
+
+/* ─── RENDER PROJECTS ────────────────────────────────── */
+function renderProjects(){
+  setHTML('projectsGrid', data.projects.map(p=>
+    `<article class="card project reveal">
+       <div style="display:flex;align-items:center;gap:var(--space-3)">
+         <div class="icon">${svgIcons[p.icon]||''}</div>
+         <h3>${safe(p.title)}</h3>
+       </div>
+       <p>${safe(p.desc)}</p>
+       <div class="proj-foot">
+         <div class="tags">${p.tags.map(t=>`<span class="tag">${safe(t)}</span>`).join('')}</div>
+         ${p.link && p.link!=='#' ? `<a href="${safe(p.link)}" target="_blank" rel="noopener noreferrer" style="font-size:var(--text-xs);color:var(--cyan);font-family:var(--mono)">View →</a>` : ''}
+       </div>
+     </article>`
+  ));
+}
+
+/* ─── RENDER INCIDENT STAGES ─────────────────────────── */
+function renderIncident(){
+  setHTML('incidentGrid', data.incident.map(s=>
+    `<article class="card project stage-card reveal">
+       <div class="open-stage">OPEN STAGE</div>
+       <div class="stage-meta">
+         <div class="stage-num">${s.n}</div>
+         <span style="font-size:var(--text-xs);font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em">${safe(s.label)}</span>
+       </div>
+       <h3 style="font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-2)">${safe(s.title)}</h3>
+       <p style="font-size:var(--text-sm);color:var(--muted);flex:1;margin-bottom:var(--space-4)">${safe(s.desc)}</p>
+       <div class="tags">${s.tags.map(t=>`<span class="tag">${safe(t)}</span>`).join('')}</div>
+     </article>`
+  ));
+}
+
+/* ─── RENDER CONTACTS ────────────────────────────────── */
+function renderContacts(){
+  setHTML('contactList', data.contacts.map(x => {
+    const tag = x[2] ? 'a' : 'div';
+    const href = x[2] ? ` href="${safe(x[2])}"${(!x[2].startsWith('mailto') && !x[2].startsWith('tel')) ? ' target="_blank" rel="noopener noreferrer"' : ''}` : '';
+    return `<${tag} class="card contact reveal"${href}>
+       <div class="icon">${safe(x[3])}</div>
+       <div>
+         <h3>${safe(x[0])}</h3>
+         <p style="font-size:var(--text-sm);color:var(--muted)">${safe(x[1])}</p>
+       </div>
+     </${tag}>`;
+  }));
+}
+
+/* ─── TERMINAL TYPER ─────────────────────────────────── */
+let typeTimer = null;
+function typeCmd(key){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event && event.target && event.target.classList.add('active');
+  const lines = data.cmdOutputs[key] || [];
+  const body = document.getElementById('cmdBody');
+  const cursor = document.getElementById('cmdCursor');
+  if(!body) return;
+  clearTimeout(typeTimer);
+  body.innerHTML = `<div class="cmd-line"><span class="prompt">$</span><span>${key==='overview'?'whoami':key==='skills'?'cat skills.txt':key==='certs'?'ls ./certs':'cat contact.txt'}</span></div>`;
+  let li = 0, ci = 0;
+  function next(){
+    if(li >= lines.length){ body.insertAdjacentHTML('beforeend','<div class="cmd-line"><span class="prompt">$</span><span class="cursor"></span></div>'); return; }
+    if(ci === 0) body.insertAdjacentHTML('beforeend',`<div class="cmd-line" id="tl"><span class="val" id="to"></span><span class="cursor"></span></div>`);
+    const out = document.getElementById('to');
+    if(out) out.textContent = lines[li].slice(0,ci+1);
+    ci++;
+    if(ci >= lines[li].length){ li++; ci=0; typeTimer=setTimeout(next,180); }
+    else { typeTimer=setTimeout(next, ci===1?120:28); }
+  }
+  typeTimer = setTimeout(next,200);
+}
+
+/* ─── WORD REVEAL OBSERVER ───────────────────────────── */
+function wordReveal(){
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  },{threshold:.3});
+  document.querySelectorAll('.word-reveal').forEach(e=>io.observe(e));
+}
+
+/* ─── SCROLL REVEAL (opacity-only) ──────────────────── */
+function initReveal(){
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+}
+
+/* ─── NAV ACTIVE STATE ───────────────────────────────── */
+function initNav(){
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if(a) a.classList.add('active');
+      }
+    });
+  },{threshold:.4});
+  sections.forEach(s=>io.observe(s));
+}
+
+/* ─── MOBILE MENU ────────────────────────────────────── */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const closeMenuBtn = document.getElementById('closeMenu');
+function closeMobileMenu(){ mobileMenu.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn && menuBtn.addEventListener('click',()=>{ mobileMenu.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', mobileMenu.classList.contains('open')); });
+closeMenuBtn && closeMenuBtn.addEventListener('click', closeMobileMenu);
+
+/* ─── INIT ───────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderSkills();
+  renderExperience();
+  renderEducation();
+  renderProjects();
+  renderIncident();
+  renderContacts();
+  typeCmd('overview');
+  wordReveal();
+  setTimeout(initReveal, 100);
+  initNav();
+});
+</script>
+</body>
+</html>
