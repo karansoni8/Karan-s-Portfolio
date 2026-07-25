@@ -37,8 +37,8 @@
 }
 @media (prefers-color-scheme:dark){
   :root{
-    --ink:#E7ECF2; --slate:#93A0AE; --hair:#293240;
-    --paper:#0F131A; --card:#161C25; --sub:#1B222C;
+    --ink:#E9EEF4; --slate:#99A6B5; --hair:#303B4B;
+    --paper:#0D1116; --card:#1B2330; --sub:#242E3C;
     --signal:#77ACF7; --signal-wash:#182742;
     --amber:#E2A64A; --amber-wash:#2A2114; --amber-line:#4A3B1C;
     --crit:#F08A82; --crit-wash:#2E1816; --moss:#63C295;
@@ -49,7 +49,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 max(24px,env(safe-area-inset-left)) 0 max(24px,env(safe-area-inset-right))}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin:0 0 10px}
 .skip{position:absolute;left:-9999px;top:0;background:var(--card);color:var(--ink);padding:12px 18px;z-index:60;border:1px solid var(--signal)}
 .skip:focus{left:12px;top:12px}
@@ -68,8 +68,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 .mast h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,9vw,66px);line-height:1.02;letter-spacing:-.03em;margin:0}
 .mast .role{font-family:var(--disp);font-weight:500;font-size:clamp(17px,2.4vw,22px);color:var(--signal);margin:10px 0 0;letter-spacing:-.01em}
 .mast .where{font-size:14px;color:var(--slate);margin:6px 0 14px}
+.w-short{display:none}
 .mast-links{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.mast-links a{font-family:var(--mono);font-size:12.5px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:8px 13px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
+.mast-links li{display:flex}
+.mast-links a{display:block}
+.mast-links a{display:block;font-family:var(--mono);font-size:12.5px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:8px 13px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
 .mast-links a:hover{border-color:var(--signal);color:var(--signal);transform:translateY(-2px)}
 .mast-links a.primary{background:var(--signal);color:#fff;border-color:var(--signal)}
 .mast-links a.primary:hover{opacity:.88;color:#fff}
@@ -171,11 +174,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 .entry li{margin-bottom:4px}
 .entry .note{font-size:13.5px;color:var(--slate);margin:6px 0 0;font-style:italic}
 
-.foot{padding:58px 0 76px}
+.foot{padding:58px 0 calc(76px + env(safe-area-inset-bottom))}
 .foot h2{font-family:var(--disp);font-weight:700;font-size:clamp(23px,6vw,40px);overflow-wrap:break-word;letter-spacing:-.025em;margin:0 0 10px}
 .foot p{margin:0 0 24px;color:var(--slate);max-width:54ch}
 .links{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
-.links a{display:inline-block;font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:11px 16px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
+.links li{display:flex}
+.links a{display:block;font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:11px 16px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
 .links a:hover{border-color:var(--signal);color:var(--signal);transform:translateY(-2px)}
 .colophon{margin-top:34px;font-family:var(--mono);font-size:11px;color:var(--slate);letter-spacing:.04em}
 
@@ -205,6 +209,19 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
   .sec-head{margin-bottom:22px}
 }
 @media (max-width:700px){
+  .mast{padding:30px 0 22px}
+  .mast .role{font-size:17px;margin-top:6px}
+  .mast .where{margin:5px 0 12px;font-size:13.5px}
+  .w-long{display:none}
+  .w-short{display:inline}
+  .sec{padding:38px 0}
+  .sec-head{margin-bottom:18px}
+  .status{padding:12px 14px}
+  .status dl{gap:5px 12px;font-size:12.5px}
+  .status dt{font-size:10px}
+  /* even 2x2 button grid instead of a ragged wrap */
+  .mast-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .mast-links a{text-align:center}
   .matrix{grid-template-columns:repeat(2,1fr)}
   .metrics{grid-template-columns:repeat(2,1fr)}
   .rail-facts{display:none}
@@ -213,14 +230,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
   .code{white-space:pre-wrap;overflow-wrap:break-word;font-size:11.5px;line-height:1.6;padding:11px 12px}
   .mast-links a,.links a{padding:11px 14px}
   .detail p{font-size:14.5px}
-  /* Alert rows: badge and chevron on one line, title on its own full-width line */
-  .alert-btn{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:14px}
-  .alert-btn .sev{flex:0 0 auto;width:62px}
-  .alert-btn > span:nth-child(2){flex:1 1 100%;order:3}
-  .alert-btn .chev{margin-left:auto}
+  /* Alert rows stay three columns — just tighter. The title wraps to two lines,
+     which is fine; stacking left a dead band across the row. */
+  .alert-btn{grid-template-columns:56px 1fr auto;gap:11px;padding:13px 14px}
+  .alert-btn .sev{font-size:10.5px}
+  .alert-name{font-size:15px}
+  .alert-meta{font-size:11.5px}
 }
 @media (max-width:480px){
-  .wrap{padding:0 16px}
+  .wrap{padding:0 max(16px,env(safe-area-inset-left)) 0 max(16px,env(safe-area-inset-right))}
   .rail-in{padding:8px 16px;gap:10px}
   .rail-id{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   .rail-cta{font-size:11.5px;padding:8px 12px}
@@ -278,7 +296,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
       <p class="eyebrow">Detection engineering portfolio</p>
       <h1>Karan Soni</h1>
       <p class="role">SOC Analyst — blue team, hands on keyboard</p>
-      <p class="where">Oshawa, Ontario &nbsp;·&nbsp; open to hybrid and remote across Canada</p>
+      <p class="where"><span class="w-long">Oshawa, Ontario &nbsp;·&nbsp; open to hybrid and remote across Canada</span><span class="w-short">Oshawa, ON &nbsp;·&nbsp; hybrid or remote in Canada</span></p>
       <ul class="mast-links">
         <li><a class="primary" href="karan-soni-resume.pdf">Resume (PDF)</a></li>
         <li><a href="mailto:sonikaran8899@gmail.com">sonikaran8899@gmail.com</a></li>
@@ -291,7 +309,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
         <dt>Status</dt><dd><span class="live"></span>Open to work</dd>
         <dt>Lab</dt><dd>7 hosts, running</dd>
         <dt>Next cert</dt><dd>CySA+ CS0-004</dd>
-        <dt>Location</dt><dd>Oshawa, ON</dd>
       </dl>
     </div>
   </div>
