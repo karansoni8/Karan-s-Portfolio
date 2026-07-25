@@ -48,7 +48,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin:0 0 10px}
 .skip{position:absolute;left:-9999px;top:0;background:var(--card);color:var(--ink);padding:12px 18px;z-index:60;border:1px solid var(--signal)}
@@ -65,7 +65,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 
 .mast{padding:64px 0 34px;border-bottom:1px solid var(--hair)}
 .mast-grid{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between}
-.mast h1{font-family:var(--disp);font-weight:700;font-size:clamp(38px,6.5vw,66px);line-height:1.02;letter-spacing:-.03em;margin:0}
+.mast h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,9vw,66px);line-height:1.02;letter-spacing:-.03em;margin:0}
 .mast .role{font-family:var(--disp);font-weight:500;font-size:clamp(17px,2.4vw,22px);color:var(--signal);margin:10px 0 0;letter-spacing:-.01em}
 .mast .where{font-size:14px;color:var(--slate);margin:6px 0 14px}
 .mast-links{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
@@ -73,7 +73,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 .mast-links a:hover{border-color:var(--signal);color:var(--signal);transform:translateY(-2px)}
 .mast-links a.primary{background:var(--signal);color:#fff;border-color:var(--signal)}
 .mast-links a.primary:hover{opacity:.88;color:#fff}
-.status{background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:14px 18px;min-width:252px}
+.status{background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:14px 18px;flex:1 1 250px;min-width:0}
 .status dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
 .status dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate)}
 .status dd{margin:0;text-align:right;font-weight:500}
@@ -82,7 +82,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 
 .sec{padding:62px 0;border-bottom:1px solid var(--hair)}
 .sec-head{margin-bottom:26px;max-width:660px}
-.sec-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:0 0 8px}
+.sec-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(21px,5vw,34px);overflow-wrap:break-word;letter-spacing:-.02em;margin:0 0 8px}
 .sec-head p{margin:0;color:var(--slate);font-size:15px}
 
 .queue{background:var(--card);border:1px solid var(--hair);border-radius:2px;overflow:hidden}
@@ -111,7 +111,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 .detail{padding:4px 16px 22px 98px;border-top:1px dashed var(--hair)}
 .detail h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:18px 0 6px;font-weight:400}
 .detail p{margin:0;font-size:15px;max-width:64ch}
-.code{font-family:var(--mono);font-size:12.5px;line-height:1.7;background:var(--code-bg);border:1px solid var(--hair);border-left:3px solid var(--signal);padding:12px 14px;overflow-x:auto;white-space:pre;color:var(--code-ink);margin:0}
+.code{font-family:var(--mono);font-size:12.5px;line-height:1.7;background:var(--code-bg);border:1px solid var(--hair);border-left:3px solid var(--signal);padding:12px 14px;overflow-x:auto;white-space:pre;color:var(--code-ink);margin:0;max-width:100%;-webkit-overflow-scrolling:touch}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
 .tags li{font-family:var(--mono);font-size:11px;color:var(--slate);border:1px solid var(--hair);border-radius:2px;padding:3px 8px;background:var(--sub)}
 .proof{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--signal);border-bottom:1px solid transparent;transition:border-color .16s var(--ease)}
@@ -172,7 +172,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
 .entry .note{font-size:13.5px;color:var(--slate);margin:6px 0 0;font-style:italic}
 
 .foot{padding:58px 0 76px}
-.foot h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,4vw,40px);letter-spacing:-.025em;margin:0 0 10px}
+.foot h2{font-family:var(--disp);font-weight:700;font-size:clamp(23px,6vw,40px);overflow-wrap:break-word;letter-spacing:-.025em;margin:0 0 10px}
 .foot p{margin:0 0 24px;color:var(--slate);max-width:54ch}
 .links{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
 .links a{display:inline-block;font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:11px 16px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
@@ -193,13 +193,62 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
   .tech,.node,.status,.queue,.metric{border:1px solid CanvasText}
   .sev,.tech .mark{forced-color-adjust:none}
 }
-@media (max-width:900px){ .matrix{grid-template-columns:repeat(3,1fr)} }
-@media (max-width:640px){
+@media (hover:none){
+  .tech:hover,.node:hover,.links a:hover,.mast-links a:hover,.rail-cta:hover{transform:none}
+}
+@media (max-width:1000px){ .matrix{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:860px){
+  .mast{padding:46px 0 28px}
+  .sec{padding:48px 0}
+  .foot{padding:46px 0 60px}
+  .detail{padding:4px 14px 20px 14px}
+  .sec-head{margin-bottom:22px}
+}
+@media (max-width:700px){
   .matrix{grid-template-columns:repeat(2,1fr)}
-  .detail{padding-left:16px}
-  .alert-btn{grid-template-columns:58px 1fr auto;gap:12px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
   .rail-facts{display:none}
+  .status{width:100%;flex-basis:100%}
   .metric .m-num{font-size:28px}
+  .code{white-space:pre-wrap;overflow-wrap:break-word;font-size:11.5px;line-height:1.6;padding:11px 12px}
+  .mast-links a,.links a{padding:11px 14px}
+  .detail p{font-size:14.5px}
+  /* Alert rows: badge and chevron on one line, title on its own full-width line */
+  .alert-btn{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:14px}
+  .alert-btn .sev{flex:0 0 auto;width:62px}
+  .alert-btn > span:nth-child(2){flex:1 1 100%;order:3}
+  .alert-btn .chev{margin-left:auto}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .rail-in{padding:8px 16px;gap:10px}
+  .rail-id{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .rail-cta{font-size:11.5px;padding:8px 12px}
+  .matrix{gap:6px}
+  .tech{font-size:11.5px;padding:7px 8px;line-height:1.3}
+  .tech .mark{top:6px;right:6px}
+  .col h3{font-size:10px;margin-bottom:6px}
+  .metric{padding:13px 14px}
+  .metric .m-num{font-size:26px}
+  .metric .m-lab{font-size:10px}
+  .detail{padding:2px 12px 18px 12px}
+  .detail h4{margin-top:14px}
+  .chain{margin-left:5px}
+  .step{padding-left:22px;padding-bottom:20px}
+  .step::before{left:-14px;width:24px;height:24px;font-size:11px}
+  .step h5{font-size:15px}
+  .step p{font-size:14px}
+  .mast-links,.links{gap:8px}
+  .mast-links a,.links a{font-size:12px;padding:10px 12px}
+  .entry h3{font-size:17.5px}
+  .entry ul{font-size:14px;padding-left:16px}
+  .legend{gap:10px;font-size:12px;flex-direction:column}
+}
+@media (max-width:370px){
+  .matrix{grid-template-columns:1fr}
+  .metrics{grid-template-columns:1fr}
+  .alert-btn .sev{width:58px;font-size:10.5px}
+  .readout{padding:13px 14px;font-size:14px}
 }
 @media print{
   .rail,.ingest,.legend{display:none}
@@ -279,7 +328,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
           <p>The first version fired 40+ times a day on Defender and WMI alone. Filtering on granted-access masks instead of process name cut the noise without blinding the rule to a renamed dumper — the mask is behaviour, the name is a string the attacker controls.</p>
           <h4>Stack</h4>
           <ul class="tags"><li>Sysmon</li><li>Elastic Agent / Fleet</li><li>KQL</li><li>T1003.001</li></ul>
-          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+          <a class="proof" href="https://github.com/karansoni8/Karan-s-Portfolio">Write-up and rule source on GitHub →</a>
         </div></div></div>
       </article>
 
@@ -301,7 +350,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
           <p>An Office app spawning an encoded shell is the phishing macro chain in one line. Scoping to those parents took a rule that couldn't ship down to zero false positives across two weeks of lab traffic.</p>
           <h4>Stack</h4>
           <ul class="tags"><li>Sysmon</li><li>Elastic SIEM</li><li>KQL</li><li>T1059.001</li></ul>
-          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+          <a class="proof" href="https://github.com/karansoni8/Karan-s-Portfolio">Write-up and rule source on GitHub →</a>
         </div></div></div>
       </article>
 
@@ -323,7 +372,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
           <p>This one doesn't come from an endpoint agent at all. Network telemetry catches what a compromised host would happily lie about — the argument for running Zeek alongside Sysmon rather than picking one.</p>
           <h4>Stack</h4>
           <ul class="tags"><li>Zeek 6.x</li><li>pfSense CE</li><li>Elastic SIEM</li><li>T1071.001</li></ul>
-          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+          <a class="proof" href="https://github.com/karansoni8/Karan-s-Portfolio">Write-up and rule source on GitHub →</a>
         </div></div></div>
       </article>
 
@@ -340,7 +389,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
           <p>Zeek flagged the exploit traffic. The endpoint side showed nothing useful, because the target is Linux and I had no agent on it. Finding your own blind spot by attacking yourself is the difference between coverage you claim and coverage you have.</p>
           <h4>Stack</h4>
           <ul class="tags"><li>Kali</li><li>Metasploit</li><li>Zeek</li><li>T1210</li></ul>
-          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+          <a class="proof" href="https://github.com/karansoni8/Karan-s-Portfolio">Write-up and rule source on GitHub →</a>
         </div></div></div>
       </article>
 
@@ -385,7 +434,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-off
               <span class="call">One new rule, one tuned, one gap closed</span>
             </div>
           </div>
-          <a class="proof" href="https://github.com/karansoni8">Full incident report on GitHub →</a>
+          <a class="proof" href="https://github.com/karansoni8/Karan-s-Portfolio">Full incident report on GitHub →</a>
         </div></div></div>
       </article>
     </div>
