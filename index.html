@@ -1,1692 +1,606 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Karan Soni — Incident Response Portfolio</title>
-<meta name="description" content="SOC-focused cybersecurity portfolio for Karan Soni. Interactive guided incident investigation revealing SIEM, threat detection, and blue-team capabilities.">
-<meta property="og:title" content="Karan Soni — Incident Response Portfolio">
-<meta property="og:description" content="Interactive SOC investigation portfolio. SIEM, traffic analysis, and blue-team operations.">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<!-- FIX: Load actual fonts from Google Fonts (display + body distinction) -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Karan Soni — SOC Analyst, detection engineering portfolio</title>
+<meta name="description" content="Detection engineering portfolio. Elastic SIEM, Sysmon, Zeek, MITRE ATT&CK coverage mapping. SOC analyst candidate in Oshawa, Ontario." />
+<link rel="canonical" href="https://karansoni8.github.io/Karan-s-Portfolio/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Karan Soni — SOC Analyst" />
+<meta property="og:description" content="Nine tuned detections, eighteen ATT&CK techniques mapped, three documented gaps. A seven-host lab you can ask me about live." />
+<meta property="og:url" content="https://karansoni8.github.io/Karan-s-Portfolio/" />
+<meta property="og:image" content="https://karansoni8.github.io/Karan-s-Portfolio/og-card.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Karan Soni — SOC Analyst" />
+<meta name="twitter:description" content="Nine tuned detections, eighteen ATT&CK techniques mapped, three documented gaps." />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F4E9C'/%3E%3Cpath d='M4 20h5l3-9 4 14 3-8h9' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<!-- FIX: Inline SVG favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='9' fill='%230a1724'/%3E%3Crect x='0.75' y='0.75' width='34.5' height='34.5' rx='8.25' stroke='%2369d6ff' stroke-width='1.5' stroke-opacity='0.6' fill='none'/%3E%3Cline x1='8' y1='9' x2='8' y2='27' stroke='%2369d6ff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='8' y1='18' x2='16' y2='9' stroke='%2369d6ff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='8' y1='18' x2='16.5' y2='27' stroke='%2369d6ff' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M28 11.5 C28 11.5 24.5 9 21.5 10.5 C18.5 12 19 15 21.5 16.5 C24 18 28 18.5 28 22 C28 25.5 24 27.5 21 27' stroke='%235ff0cf' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
-
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* =========================================================
-   DESIGN TOKENS
-   ========================================================= */
-:root {
-  --nav: 68px;
-  --wrap: min(1160px, calc(100% - clamp(16px, 3vw, 40px)));
-  --r: 18px;
-  /* FIX: proper font tokens with loaded fonts */
-  --font-body: 'Space Grotesk', 'Helvetica Neue', sans-serif;
-  --font-mono: 'JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', monospace;
-
-  /* Fluid type scale */
-  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
-  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
-  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
-  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
-  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
-  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
-  --text-hero: clamp(3rem,     0.5rem  + 7vw,    6rem);
-
-  /* Spacing */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-5:  1.25rem;
-  --space-6:  1.5rem;
-  --space-8:  2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-
-  /* Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
-  --radius-full: 9999px;
-
-  /* Transitions */
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --t: 200ms var(--ease);
+:root{
+  --ink:#14181F; --slate:#5A6673; --hair:#D3DAE2;
+  --paper:#E9EDF2; --card:#FFFFFF; --sub:#F4F7FA;
+  --signal:#1F4E9C; --signal-wash:#E4EBF6;
+  --amber:#8A5605; --amber-wash:#F7EEDE; --amber-line:#E3D0AC;
+  --crit:#992A26; --crit-wash:#F8E7E5;
+  --moss:#245C43; --moss-wash:#E2EFE8; --moss-line:#B9D7C6;
+  --code-bg:#F4F7FA; --code-ink:#232F41;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --disp:"Space Grotesk","IBM Plex Sans",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
 }
-
-/* DARK MODE (default) */
-:root, [data-theme="dark"] {
-  --bg: #050b12;
-  --bg2: #081827;
-  --card: rgba(12, 25, 39, 0.86);
-  --solid: #0a1724;
-  --text: #eef7ff;
-  --sub: #b9cadd;
-  --muted: #8298b3;
-  --faint: #4a5f72;
-  --line: rgba(105,214,255,.14);
-  --line2: rgba(105,214,255,.30);
-  --cyan: #69d6ff;
-  --blue: #18a8ee;
-  --green: #5ff0cf;
-  --red: #ff6b8a;
-  --yellow: #ffd166;
-  --soft: rgba(24,168,238,.10);
-  --grid: rgba(72,135,198,.06);
-  --shadow: 0 12px 40px rgba(0,0,0,.45);
-}
-
-/* LIGHT MODE */
-[data-theme="light"] {
-  --bg: #f0f6fc;
-  --bg2: #e3edf7;
-  --card: rgba(255,255,255,.92);
-  --solid: #ffffff;
-  --text: #102031;
-  /* FIX: darkened sub/muted to pass WCAG AA at body size */
-  --sub: #2e4460;
-  --muted: #4a6280;
-  --faint: #8298b3;
-  --line: rgba(20,105,170,.14);
-  --line2: rgba(20,105,170,.30);
-  /* FIX: darkened cyan for light mode contrast */
-  --cyan: #0c6fa8;
-  --blue: #0c78c7;
-  --green: #00996e;
-  --red: #c02040;
-  --yellow: #9a6200;
-  --soft: rgba(12,120,199,.08);
-  --grid: rgba(72,135,198,.07);
-  --shadow: 0 8px 28px rgba(0,0,0,.10);
-}
-
-/* =========================================================
-   BASE RESET
-   ========================================================= */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
-  /* FIX: scroll-padding uses CSS var, not hardcoded px */
-  scroll-padding-top: calc(var(--nav) + 16px);
-}
-body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  background: radial-gradient(circle at 12% 8%, rgba(24,168,238,.18), transparent 28%),
-              radial-gradient(circle at 88% 4%, rgba(95,240,207,.10), transparent 20%),
-              linear-gradient(180deg, var(--bg), var(--bg2) 55%, var(--bg));
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-/* Subtle grid bg — toned down vs original */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(circle at center, #000, transparent 88%);
-}
-a { text-decoration: none; color: inherit; }
-button, input, textarea { font: inherit; }
-img, picture, video, canvas, svg { display: block; max-width: 100%; }
-h1,h2,h3,h4,h5,h6 { text-wrap: balance; line-height: 1.15; font-family: var(--font-body); }
-p, li { text-wrap: pretty; }
-
-/* FIX: Skip link for accessibility */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: var(--space-4);
-  background: var(--cyan);
-  color: var(--bg);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: var(--text-sm);
-  z-index: 999;
-  transition: top .2s;
-}
-.skip-link:focus { top: var(--space-4); }
-
-/* FIX: Interactive transitions on interactive elements only */
-a, button, [role="button"], input, textarea, select {
-  transition: color var(--t), background var(--t), border-color var(--t), box-shadow var(--t);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+@media (prefers-color-scheme:dark){
+  :root{
+    --ink:#E7ECF2; --slate:#93A0AE; --hair:#293240;
+    --paper:#0F131A; --card:#161C25; --sub:#1B222C;
+    --signal:#77ACF7; --signal-wash:#182742;
+    --amber:#E2A64A; --amber-wash:#2A2114; --amber-line:#4A3B1C;
+    --crit:#F08A82; --crit-wash:#2E1816; --moss:#63C295;
+    --moss-wash:#132B21; --moss-line:#25493A;
+    --code-bg:#111721; --code-ink:#C6D2E2;
   }
 }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin:0 0 10px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--card);color:var(--ink);padding:12px 18px;z-index:60;border:1px solid var(--signal)}
+.skip:focus{left:12px;top:12px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
 
-/* =========================================================
-   LAYOUT UTILITIES
-   ========================================================= */
-.wrap { width: var(--wrap); margin-inline: auto; }
+.rail{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--card);border-bottom:1px solid var(--hair);transform:translateY(-101%);transition:transform .34s var(--ease)}
+.rail.show{transform:none}
+.rail-in{max-width:1080px;margin:0 auto;padding:9px 24px;display:flex;align-items:center;gap:16px;justify-content:space-between}
+.rail-id{font-family:var(--disp);font-weight:500;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.rail-facts{font-family:var(--mono);font-size:11.5px;color:var(--slate);letter-spacing:.03em}
+.rail-cta{font-family:var(--mono);font-size:12px;text-decoration:none;color:#fff;background:var(--signal);padding:8px 14px;border-radius:2px;white-space:nowrap;transition:opacity .15s var(--ease)}
+.rail-cta:hover{opacity:.85}
 
-/* FIX: fluid section padding with clamp instead of fixed 92px */
-.section { padding: clamp(var(--space-12), 8vw, var(--space-24)) 0; }
+.mast{padding:64px 0 34px;border-bottom:1px solid var(--hair)}
+.mast-grid{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between}
+.mast h1{font-family:var(--disp);font-weight:700;font-size:clamp(38px,6.5vw,66px);line-height:1.02;letter-spacing:-.03em;margin:0}
+.mast .role{font-family:var(--disp);font-weight:500;font-size:clamp(17px,2.4vw,22px);color:var(--signal);margin:10px 0 0;letter-spacing:-.01em}
+.mast .where{font-size:14px;color:var(--slate);margin:6px 0 14px}
+.mast-links{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.mast-links a{font-family:var(--mono);font-size:12.5px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:8px 13px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
+.mast-links a:hover{border-color:var(--signal);color:var(--signal);transform:translateY(-2px)}
+.mast-links a.primary{background:var(--signal);color:#fff;border-color:var(--signal)}
+.mast-links a.primary:hover{opacity:.88;color:#fff}
+.status{background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:14px 18px;min-width:252px}
+.status dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:13px}
+.status dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate)}
+.status dd{margin:0;text-align:right;font-weight:500}
+.live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--moss);margin-right:7px;vertical-align:1px;animation:breathe 3.2s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.42}}
 
-/* =========================================================
-   PROGRESS BAR
-   ========================================================= */
-.progress {
-  position: fixed; top: 0; left: 0; width: 0; height: 2px;
-  background: linear-gradient(90deg, var(--cyan), var(--green));
-  z-index: 200;
-}
+.sec{padding:62px 0;border-bottom:1px solid var(--hair)}
+.sec-head{margin-bottom:26px;max-width:660px}
+.sec-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:0 0 8px}
+.sec-head p{margin:0;color:var(--slate);font-size:15px}
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-.nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: var(--nav);
-  z-index: 100;
-  /* FIX: color-mix syntax — using `in srgb` */
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(16px);
-}
-.nav .wrap {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-5);
-}
-.brand {
-  display: flex;
-  gap: var(--space-3);
-  align-items: center;
-  font-weight: 700;
-  font-size: var(--text-sm);
-  letter-spacing: -.01em;
-}
-/* FIX: SVG inline logo replacing the generic dot */
-.brand-logo {
-  width: 32px; height: 32px; flex-shrink: 0;
-}
-.links { display: flex; gap: var(--space-5); list-style: none; }
-/* FIX: links use body font, not mono */
-.links a {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--muted);
-}
-.links a:hover { color: var(--text); }
+.queue{background:var(--card);border:1px solid var(--hair);border-radius:2px;overflow:hidden}
+.qbar{position:relative;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--hair);background:var(--sub);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.ingest{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--signal);opacity:.7;animation:ingest 9s linear infinite}
+@keyframes ingest{0%{width:0;opacity:.7}88%{width:100%;opacity:.7}100%{width:100%;opacity:0}}
+.alert{border-bottom:1px solid var(--hair);opacity:0;transform:translateY(8px);animation:rowin .5s var(--ease) forwards}
+@keyframes rowin{to{opacity:1;transform:none}}
+.alert:last-child{border-bottom:0}
+.alert-btn{width:100%;display:grid;grid-template-columns:66px 1fr auto;gap:16px;align-items:center;padding:15px 16px;min-height:56px;background:none;border:0;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:background .16s var(--ease)}
+.alert-btn:hover{background:var(--sub)}
+.alert-btn:focus-visible{outline:2px solid var(--signal);outline-offset:-2px}
+.sev{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.06em;padding:3px 0;text-align:center;border-radius:2px}
+.sev-1{background:var(--crit-wash);color:var(--crit)}
+.sev-2{background:var(--amber-wash);color:var(--amber)}
+.sev-3{background:var(--signal-wash);color:var(--signal)}
+.sev-c{background:var(--sub);color:var(--slate);border:1px solid var(--hair)}
+.alert-name{font-weight:500;letter-spacing:-.01em}
+.alert-meta{display:block;font-family:var(--mono);font-size:12px;color:var(--slate);margin-top:3px}
+.chev{font-family:var(--mono);font-size:14px;color:var(--slate);transition:transform .28s var(--ease)}
+.alert[data-open="true"] .chev{transform:rotate(90deg)}
+.alert[data-open="true"] .alert-btn{background:var(--sub)}
+.dwrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s var(--ease)}
+.alert[data-open="true"] .dwrap{grid-template-rows:1fr}
+.dinner{overflow:hidden;min-height:0}
+.detail{padding:4px 16px 22px 98px;border-top:1px dashed var(--hair)}
+.detail h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:18px 0 6px;font-weight:400}
+.detail p{margin:0;font-size:15px;max-width:64ch}
+.code{font-family:var(--mono);font-size:12.5px;line-height:1.7;background:var(--code-bg);border:1px solid var(--hair);border-left:3px solid var(--signal);padding:12px 14px;overflow-x:auto;white-space:pre;color:var(--code-ink);margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.tags li{font-family:var(--mono);font-size:11px;color:var(--slate);border:1px solid var(--hair);border-radius:2px;padding:3px 8px;background:var(--sub)}
+.proof{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:var(--mono);font-size:12px;text-decoration:none;color:var(--signal);border-bottom:1px solid transparent;transition:border-color .16s var(--ease)}
+.proof:hover{border-bottom-color:var(--signal)}
 
-.iconbtn {
-  width: 40px; height: 40px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--line);
-  background: var(--card);
-  color: var(--text);
-  display: grid; place-items: center;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.iconbtn:hover { border-color: var(--line2); }
+.chain{counter-reset:step;border-left:2px solid var(--hair);margin:6px 0 0 8px}
+.step{position:relative;padding:0 0 22px 28px}
+.step:last-child{padding-bottom:0}
+.step::before{counter-increment:step;content:counter(step);position:absolute;left:-15px;top:1px;width:26px;height:26px;border-radius:50%;background:var(--signal);color:#fff;font-family:var(--mono);font-size:11.5px;display:flex;align-items:center;justify-content:center;border:3px solid var(--card)}
+.step .t-off{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--slate)}
+.step h5{font-family:var(--disp);font-weight:500;font-size:16px;margin:2px 0 4px;letter-spacing:-.01em}
+.step p{margin:0 0 6px;font-size:14.5px;max-width:64ch}
+.step .call{display:inline-block;font-family:var(--mono);font-size:11.5px;background:var(--moss-wash);color:var(--moss);border:1px solid var(--moss-line);border-radius:2px;padding:3px 9px}
 
-/* FIX: hamburger has visible SVG icon */
-.hamb { display: none; }
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:2px;margin-bottom:24px}
+.metric{background:var(--card);padding:16px 18px}
+.metric .m-num{font-family:var(--disp);font-weight:700;font-size:34px;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.metric .m-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:7px}
 
-/* Mobile menu */
-.mobile {
-  position: fixed;
-  top: var(--nav);
-  left: 0; right: 0;
-  z-index: 99;
-  padding: var(--space-3);
-  display: grid; gap: var(--space-2);
-  transform: translateY(-110%);
-  transition: transform .3s var(--ease);
-  background: color-mix(in srgb, var(--bg) 94%, transparent);
-  border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(16px);
-}
-.mobile.open { transform: translateY(0); }
-/* FIX: mobile menu links have 44px+ touch targets */
-.mobile a {
-  padding: 13px var(--space-4);
-  min-height: 44px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
-  background: var(--card);
-  font-weight: 600;
-  font-size: var(--text-sm);
-  display: flex;
-  align-items: center;
-}
-.mobile a:hover { border-color: var(--line2); }
+.legend{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 20px;font-size:12.5px;color:var(--slate)}
+.legend span{display:flex;align-items:center;gap:7px}
+.sw{width:12px;height:12px;border-radius:2px;border:1px solid var(--hair);display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:8px;font-weight:500}
+.matrix{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.col h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:400;margin:0 0 8px;padding-bottom:7px;border-bottom:1px solid var(--hair)}
+.tech{display:block;width:100%;text-align:left;font:inherit;font-size:12px;line-height:1.35;background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:8px 9px;margin-bottom:6px;cursor:pointer;color:var(--ink);position:relative;opacity:0;transform:translateY(6px);transition:transform .16s var(--ease),border-color .16s var(--ease)}
+.matrix.lit .tech{opacity:1;transform:none;transition:opacity .34s var(--ease),transform .34s var(--ease),border-color .16s var(--ease)}
+.tech:hover{transform:translateY(-2px);border-color:var(--slate)}
+.tech .tid{display:block;font-family:var(--mono);font-size:10px;color:var(--slate);margin-bottom:2px}
+.tech .mark{position:absolute;top:7px;right:8px;font-family:var(--mono);font-size:9.5px;font-weight:500}
+.tech.cov{background:var(--moss-wash);border-color:var(--moss-line)}
+.tech.cov .mark{color:var(--moss)}
+.tech.part{background:var(--amber-wash);border-color:var(--amber-line)}
+.tech.part .mark{color:var(--amber)}
+.tech.gap .mark{color:var(--slate)}
+.tech[aria-pressed="true"]{border-color:var(--signal);box-shadow:inset 0 0 0 1px var(--signal)}
+.readout{margin-top:16px;background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:15px 17px;font-size:14.5px;min-height:76px;transition:opacity .2s var(--ease)}
+.readout.fade{opacity:0}
+.readout strong{font-family:var(--disp);font-weight:500}
 
-/* =========================================================
-   ALERT / TOAST SYSTEM (mostly kept, color-mix fixed)
-   ========================================================= */
-.alert-feed {
-  position: fixed;
-  right: var(--space-6);
-  top: calc(var(--nav) + var(--space-5));
-  z-index: 150;
-  width: min(360px, calc(100% - 44px));
-  pointer-events: none;
-}
-.toast {
-  pointer-events: auto;
-  border: 1px solid rgba(105,214,255,.20);
-  border-radius: var(--radius-2xl);
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--solid) 94%, transparent),
-    color-mix(in srgb, var(--solid) 86%, transparent));
-  box-shadow: 0 18px 55px rgba(0,0,0,.30), 0 0 0 1px rgba(255,255,255,.025) inset;
-  backdrop-filter: blur(18px);
-  padding: var(--space-4);
-  transform: translateY(-10px) scale(.985);
-  opacity: 0;
-  animation: toastIn .34s var(--ease) forwards;
-  margin-bottom: var(--space-3);
-}
-.toast.closing { animation: toastOut .22s ease forwards; }
-.toast-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
-.toast-kicker {
-  font: 900 var(--text-xs)/1 var(--font-mono);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: var(--space-2);
-}
-.toast-title { font-size: var(--text-base); font-weight: 700; letter-spacing: -.02em; line-height: 1.2; }
-.toast-body { margin-top: var(--space-2); color: var(--sub); font-size: var(--text-sm); line-height: 1.5; }
-.toast-actions { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
-.toast button {
-  min-height: auto;
-  border-radius: var(--radius-full);
-  padding: var(--space-2) 11px;
-  font: 750 var(--text-xs)/1 var(--font-body);
-  letter-spacing: .03em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--t);
-}
-.toast button.primary {
-  border: 1px solid rgba(105,214,255,.35);
-  background: linear-gradient(180deg, rgba(105,214,255,.22), rgba(24,168,238,.10));
-  color: var(--cyan);
-}
-.toast button.ghost {
-  border: 1px solid rgba(105,214,255,.14);
-  background: transparent;
-  color: var(--muted);
-}
-.toast-close {
-  border: 0 !important;
-  background: transparent !important;
-  color: var(--muted) !important;
-  padding: 0 !important;
-  font-size: 18px !important;
-  line-height: 1 !important;
-}
-.toast-sev::before {
-  content: '';
-  display: inline-block;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 14px var(--green);
-  margin-right: 6px;
-  vertical-align: 1px;
-}
-.toast-sev.high::before { background: var(--red); box-shadow: 0 0 14px var(--red); }
-.toast-sev.med::before  { background: var(--yellow); box-shadow: 0 0 14px var(--yellow); }
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px}
+.node{background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:14px 16px;transition:transform .16s var(--ease),border-color .16s var(--ease)}
+.node:hover{transform:translateY(-2px);border-color:var(--slate)}
+.node .n-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate)}
+.node .n-name{font-family:var(--disp);font-weight:500;font-size:17px;margin:4px 0 5px;letter-spacing:-.01em}
+.node p{margin:0;font-size:13.5px;color:var(--slate);line-height:1.5}
 
-@keyframes toastIn  { to { transform: none; opacity: 1; } }
-@keyframes toastOut { to { transform: translateY(-10px) scale(.985); opacity: 0; } }
+.tl{position:relative;padding-left:26px;margin-left:6px}
+.tl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--hair);transform:scaleY(0);transform-origin:top;transition:transform 1.1s var(--ease)}
+.tl.drawn::before{transform:scaleY(1)}
+.entry{position:relative;padding-bottom:28px}
+.entry:last-child{padding-bottom:0}
+.entry::before{content:"";position:absolute;left:-31px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--signal);border:2px solid var(--paper)}
+.entry .when{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--slate)}
+.entry h3{font-family:var(--disp);font-weight:500;font-size:19px;margin:3px 0 2px;letter-spacing:-.01em}
+.entry .org{font-size:14px;color:var(--slate);margin:0 0 8px}
+.entry ul{margin:0;padding-left:17px;font-size:14.5px}
+.entry li{margin-bottom:4px}
+.entry .note{font-size:13.5px;color:var(--slate);margin:6px 0 0;font-style:italic}
 
-.alert-toggle { position: fixed; left: var(--space-5); bottom: var(--space-5); z-index: 151; }
+.foot{padding:58px 0 76px}
+.foot h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,4vw,40px);letter-spacing:-.025em;margin:0 0 10px}
+.foot p{margin:0 0 24px;color:var(--slate);max-width:54ch}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
+.links a{display:inline-block;font-family:var(--mono);font-size:13px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--hair);border-radius:2px;padding:11px 16px;transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
+.links a:hover{border-color:var(--signal);color:var(--signal);transform:translateY(-2px)}
+.colophon{margin-top:34px;font-family:var(--mono);font-size:11px;color:var(--slate);letter-spacing:.04em}
 
-/* =========================================================
-   CARDS  (FIX: removed colored side border, spotlight only on hover)
-   ========================================================= */
-.card {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01), var(--card));
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  /* FIX: tone-matched shadow */
-  box-shadow: 0 4px 20px rgba(0,0,0,.18);
-  backdrop-filter: blur(12px);
-  transition: border-color .25s, box-shadow .25s, transform .25s;
-}
-/* FIX: spotlight effect only on hover, no constant colored glow */
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(105,214,255,.09), transparent 45%);
-  opacity: 0;
-  transition: opacity .3s;
-  pointer-events: none;
-  z-index: 0;
-}
-.card:hover { border-color: var(--line2); box-shadow: 0 8px 36px rgba(0,0,0,.28); }
-.card:hover::before { opacity: 1; }
-.card > * { position: relative; z-index: 1; }
+.rise{opacity:0;transform:translateY(12px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.rise.in{opacity:1;transform:none}
 
-/* =========================================================
-   PILLS & TAGS  (FIX: body font not mono)
-   ========================================================= */
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  border: 1px solid var(--line);
-  background: var(--soft);
-  color: var(--cyan);
-  padding: 8px 13px;
-  border-radius: var(--radius-full);
-  font: 700 var(--text-xs)/1 var(--font-body);
-  letter-spacing: .04em;
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rise,.alert,.tech{opacity:1!important;transform:none!important}
+  .tl::before{transform:scaleY(1)!important}
+  .rail{transform:none}
 }
-.live {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 6px rgba(95,240,207,.12);
-  animation: pulse 1.6s infinite;
+@media (forced-colors:active){
+  .tech,.node,.status,.queue,.metric{border:1px solid CanvasText}
+  .sev,.tech .mark{forced-color-adjust:none}
 }
-@keyframes pulse { 50% { opacity: .55; transform: scale(.78); } }
-
-.tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-5) 0; }
-.tag {
-  display: inline-flex;
-  padding: 6px 11px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--solid) 78%, transparent);
-  /* FIX: mono only for code-related tags — use body font weight for readability */
-  font: 700 var(--text-xs)/1 var(--font-mono);
-  color: var(--cyan);
+@media (max-width:900px){ .matrix{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:640px){
+  .matrix{grid-template-columns:repeat(2,1fr)}
+  .detail{padding-left:16px}
+  .alert-btn{grid-template-columns:58px 1fr auto;gap:12px}
+  .rail-facts{display:none}
+  .metric .m-num{font-size:28px}
 }
-
-/* =========================================================
-   BUTTONS  (FIX: body font, not mono; 44px min-height)
-   ========================================================= */
-.btns { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-.btn {
-  min-height: 46px;
-  padding: 0 var(--space-5);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--line);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  background: color-mix(in srgb, var(--solid) 84%, transparent);
-  font: 700 var(--text-sm)/1 var(--font-body);
-  cursor: pointer;
-  color: var(--text);
+@media print{
+  .rail,.ingest,.legend{display:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  .sec{padding:18pt 0;border-color:#bbb;break-inside:avoid}
+  .dwrap{grid-template-rows:1fr!important}
+  .chev{display:none}
+  a{color:#000;text-decoration:underline}
+  .links a::after,.mast-links a::after{content:" (" attr(href) ")";font-size:8pt}
 }
-.btn:hover { border-color: var(--line2); transform: translateY(-2px); }
-.btn.primary {
-  background: linear-gradient(180deg, var(--cyan), var(--blue));
-  color: #04121b;
-  border: 0;
-  font-weight: 800;
-}
-.btn:active { transform: translateY(0); }
-
-/* =========================================================
-   EYEBROW / SECTION HEADERS  (FIX: body font)
-   ========================================================= */
-.head { margin-bottom: var(--space-8); }
-.eyebrow {
-  display: inline-flex;
-  gap: var(--space-3);
-  align-items: center;
-  color: var(--cyan);
-  font: 700 var(--text-xs)/1 var(--font-body);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  margin-bottom: var(--space-4);
-}
-.eyebrow::before {
-  content: '';
-  width: 20px; height: 1px;
-  background: var(--cyan);
-}
-h1 { font-size: var(--text-hero); line-height: .95; letter-spacing: -.06em; margin: var(--space-5) 0; }
-h2 { font-size: var(--text-2xl); line-height: 1; letter-spacing: -.04em; margin-bottom: var(--space-3); }
-.lead { color: var(--sub); font-size: var(--text-base); max-width: 72ch; }
-.muted { color: var(--muted); }
-
-/* =========================================================
-   HERO  (FIX: breakpoint adjusted, padding fluid)
-   ========================================================= */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: calc(var(--nav) + clamp(var(--space-10), 6vw, var(--space-16))) 0 clamp(var(--space-8), 4vw, var(--space-12));
-}
-/* FIX: 2-col grid collapses at 860px not 1100px to avoid squashed mid layout */
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
-  align-items: center;
-}
-.socials { display: flex; gap: var(--space-3); margin-top: var(--space-5); }
-.social {
-  width: 44px; height: 44px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
-  display: grid; place-items: center;
-  background: color-mix(in srgb, var(--solid) 84%, transparent);
-  font: 700 var(--text-xs)/1 var(--font-mono);
-  transition: var(--t);
-}
-.social:hover { border-color: var(--line2); transform: translateY(-2px); }
-.hero-foot {
-  margin-top: var(--space-4);
-  font: 600 var(--text-xs)/1.3 var(--font-body);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* =========================================================
-   TERMINAL CARD
-   ========================================================= */
-.cmd {
-  padding: 0;
-  animation: float 5s ease-in-out infinite;
-}
-@keyframes float { 50% { transform: translateY(-7px); } }
-.cmdtop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-4) var(--space-5);
-  border-bottom: 1px solid var(--line);
-  background: rgba(255,255,255,.025);
-}
-.dots { display: flex; gap: 6px; }
-.dots span { width: 10px; height: 10px; border-radius: 50%; }
-.dots span:nth-child(1) { background: var(--red); }
-.dots span:nth-child(2) { background: var(--yellow); }
-.dots span:nth-child(3) { background: var(--green); }
-.cmdtitle { font: 700 var(--text-xs)/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.cmdbody { padding: var(--space-5); }
-.minigrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin: var(--space-5) 0; }
-.mini {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  background: color-mix(in srgb, var(--solid) 78%, transparent);
-}
-/* FIX: label uses body font small caps style, not mono */
-.label {
-  font: 600 var(--text-xs)/1 var(--font-body);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-2);
-}
-.value { font-weight: 700; font-size: var(--text-sm); }
-.screen {
-  min-height: 200px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  background: linear-gradient(180deg, rgba(2,8,14,.95), rgba(2,8,14,.78));
-  font-family: var(--font-mono);
-  overflow: hidden;
-}
-.line { display: flex; gap: var(--space-3); color: #b9cadd; font-size: var(--text-sm); line-height: 1.7; }
-.line.line { margin-top: 5px; }
-.prompt { color: var(--cyan); }
-.ok { color: var(--green); }
-.cursor { display: inline-block; width: 8px; height: 1em; background: var(--cyan); animation: blink 1s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-.cmdactions { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-4); }
-.cmdactions button {
-  background: linear-gradient(180deg, rgba(105,214,255,.10), rgba(255,255,255,.02));
-  border: 1px solid rgba(109,214,255,.18);
-  color: var(--sub);
-  border-radius: var(--radius-full);
-  padding: 8px 12px;
-  /* FIX: body font for buttons */
-  font: 700 var(--text-xs)/1 var(--font-body);
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  cursor: pointer;
-}
-.cmdactions button.active,
-.cmdactions button:hover {
-  background: linear-gradient(180deg, rgba(105,214,255,.22), rgba(24,168,238,.10));
-  color: var(--cyan);
-  border-color: var(--line2);
-}
-
-/* =========================================================
-   BENTO GRID  (FIX: asymmetric 2-col instead of cookie-cutter 4-col)
-   ========================================================= */
-.grid2 { display: grid; grid-template-columns: 1.05fr .95fr; gap: var(--space-5); }
-
-/* FIX: section-specific card padding */
-.about, .skill, .project, .cred, .contact, .stat, .experience, .form { padding: var(--space-6); }
-.about { padding: var(--space-8); }
-.about p + p { margin-top: var(--space-4); }
-
-.statgrid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-4); }
-.stat { min-height: 140px; display: flex; flex-direction: column; justify-content: flex-end; }
-.big { font-size: var(--text-2xl); font-weight: 900; }
-
-/* FIX: skill grid — 3 columns instead of 4 (less cramped) */
-.skillgrid  { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-4); }
-.projectgrid{ display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-4); }
-.list { display: grid; gap: var(--space-4); }
-
-/* FIX: icon without background circle — just the icon character */
-.icon {
-  width: 42px; height: 42px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  display: grid; place-items: center;
-  font-size: 1rem;
-  color: var(--cyan);
-  /* FIX: subtle bg, not the heavy --soft fill on every card */
-  background: rgba(105,214,255,.05);
-}
-/* FIX: card headings use body font at sensible size */
-.skill h3, .project h3, .cred h3, .contact h3 { font-size: var(--text-base); margin: var(--space-4) 0 var(--space-2); font-weight: 700; }
-.skill p, .project p, .contact p { color: var(--sub); font-size: var(--text-sm); margin-bottom: var(--space-4); }
-.project { cursor: pointer; min-height: 280px; }
-.project:hover, .skill:hover, .cred:hover, .contact:hover { transform: translateY(-3px); border-color: var(--line2); }
-.project:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
-.projecttop { display: flex; justify-content: space-between; margin-bottom: var(--space-5); }
-.case { font: 700 var(--text-xs)/1 var(--font-body); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-.accent { font: 700 var(--text-xs)/1 var(--font-body); text-transform: uppercase; color: var(--cyan); letter-spacing: .07em; }
-
-/* =========================================================
-   EXPERIENCE
-   ========================================================= */
-.cred { display: flex; gap: var(--space-4); align-items: flex-start; }
-.meta { display: flex; gap: var(--space-3); flex-wrap: wrap; color: var(--muted); font-size: var(--text-sm); }
-.exphead { display: flex; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
-.exptitle { display: flex; align-items: center; gap: var(--space-4); }
-.avatar {
-  width: 50px; height: 50px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, var(--cyan), var(--green));
-  color: #04121b;
-  display: grid; place-items: center;
-  font: 700 var(--text-sm)/1 var(--font-mono);
-  flex-shrink: 0;
-}
-.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
-.box {
-  padding: var(--space-5);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
-  background: color-mix(in srgb, var(--solid) 76%, transparent);
-}
-.box ul { padding-left: var(--space-5); color: var(--sub); }
-.box li { margin-top: var(--space-2); font-size: var(--text-sm); }
-.box h4 { font-size: var(--text-sm); font-weight: 700; margin-bottom: var(--space-3); }
-
-/* =========================================================
-   CONTACT FORM  (FIX: labels added, proper form structure)
-   ========================================================= */
-.contactgrid { display: grid; grid-template-columns: 1.02fr .98fr; gap: var(--space-5); align-items: start; }
-.formgrid { display: grid; gap: var(--space-3); }
-/* FIX: visually hidden label class */
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
-.form-field { display: grid; gap: var(--space-1); }
-.form-label { font: 600 var(--text-xs)/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.input, textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 13px var(--space-4);
-  background: color-mix(in srgb, var(--solid) 82%, transparent);
-  color: var(--text);
-  outline: none;
-  font-size: var(--text-sm);
-}
-.input:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--soft); }
-.input.invalid, textarea.invalid { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(255,107,138,.10) !important; }
-textarea { min-height: 140px; resize: vertical; }
-.form-status {
-  display: none;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 12px var(--space-4);
-  background: var(--soft);
-  color: var(--cyan);
-  font-weight: 700;
-  font-size: var(--text-sm);
-}
-.form-status.show { display: block; animation: softPop .35s ease both; }
-@keyframes softPop { from { opacity:0; transform: translateY(6px) scale(.98); } to { opacity:1; transform: none; } }
-.helper-text { font-size: var(--text-xs); color: var(--muted); line-height: 1.6; margin-top: var(--space-2); }
-.contact { min-height: 120px; }
-
-/* =========================================================
-   MODAL
-   ========================================================= */
-.modalbg {
-  position: fixed; inset: 0;
-  background: rgba(3,8,14,.65);
-  backdrop-filter: blur(12px);
-  opacity: 0; pointer-events: none;
-  z-index: 120;
-  transition: opacity .25s;
-}
-.modalbg.open { opacity: 1; pointer-events: auto; }
-.modal {
-  position: fixed;
-  left: 50%; top: 50%;
-  width: min(900px, calc(100% - 24px));
-  max-height: 88vh;
-  overflow: auto;
-  transform: translate(-50%, calc(-50% + 18px)) scale(.98);
-  opacity: 0; pointer-events: none;
-  z-index: 121;
-  padding: var(--space-8);
-  transition: .35s var(--ease);
-}
-.modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
-.close { position: absolute; top: var(--space-4); right: var(--space-4); }
-.modaltitle { font-size: var(--text-2xl); margin: var(--space-3) 0; }
-.modalgrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-5); }
-
-/* =========================================================
-   SECTION PULSE (animation feedback on nav click)
-   ========================================================= */
-.section-pulse { animation: sectionPulse 1.2s ease; }
-@keyframes sectionPulse { 35% { box-shadow: 0 0 0 5px rgba(105,214,255,.08); } }
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-footer {
-  padding: var(--space-8) 0 var(--space-12);
-  border-top: 1px solid var(--line);
-}
-footer .wrap {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-
-/* =========================================================
-   SCROLL REVEAL  (FIX: opacity-only, no translateY → no CLS)
-   ========================================================= */
-.reveal { opacity: 0; transition: opacity .7s var(--ease); }
-.reveal.visible { opacity: 1; }
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-@media (max-width: 1000px) {
-  .hero-grid, .grid2, .contactgrid, .modalgrid { grid-template-columns: 1fr; }
-  .skillgrid, .projectgrid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 860px) {
-  .links { display: none; }
-  .hamb { display: grid; }
-}
-@media (max-width: 640px) {
-  .minigrid, .statgrid, .skillgrid, .projectgrid, .twocol { grid-template-columns: 1fr; }
-  .exphead, footer .wrap { flex-direction: column; align-items: flex-start; }
-}
-
-/* =========================================================
-   SUBTLE ANIMATIONS — HERO & INCIDENT SECTION
-   ========================================================= */
-
-/* Staggered hero entrance */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.hero-animate > * {
-  opacity: 0;
-  animation: fadeSlideUp 0.7s var(--ease) forwards;
-}
-.hero-animate > *:nth-child(1) { animation-delay: 0.05s; }
-.hero-animate > *:nth-child(2) { animation-delay: 0.18s; }
-.hero-animate > *:nth-child(3) { animation-delay: 0.30s; }
-.hero-animate > *:nth-child(4) { animation-delay: 0.42s; }
-.hero-animate > *:nth-child(5) { animation-delay: 0.54s; }
-.hero-animate > *:nth-child(6) { animation-delay: 0.64s; }
-.hero-animate > *:nth-child(7) { animation-delay: 0.72s; }
-
-/* Terminal card floats in from right */
-.cmd-animate {
-  opacity: 0;
-  animation: cmdEntrance 0.9s var(--ease) 0.3s forwards;
-}
-@keyframes cmdEntrance {
-  from { opacity: 0; transform: translateX(28px) scale(0.97); }
-  to   { opacity: 1; transform: translateX(0) scale(1); }
-}
-
-/* Social icon magnetic lift on hover */
-.social {
-  transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
-}
-.social:hover {
-  transform: translateY(-4px) scale(1.08);
-  box-shadow: 0 8px 20px rgba(105,214,255,.18);
-  border-color: var(--line2);
-}
-.social:active { transform: translateY(-1px) scale(1.02); }
-
-/* Stage card number pulse on reveal */
-@keyframes countUp {
-  from { opacity: 0; transform: scale(0.6); }
-  to   { opacity: 1; transform: scale(1); }
-}
-.stage-num {
-  animation: countUp 0.5s var(--ease) both;
-}
-
-/* Scan-line shimmer on stage cards */
-.stage-card {
-  overflow: hidden;
-}
-.stage-card::after {
-  content: '';
-  position: absolute;
-  top: -100%;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: linear-gradient(180deg,
-    transparent,
-    rgba(105,214,255,.04) 50%,
-    transparent
-  );
-  animation: scanline 4s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 2;
-}
-.stage-card:nth-child(2)::after { animation-delay: 0.6s; }
-.stage-card:nth-child(3)::after { animation-delay: 1.2s; }
-.stage-card:nth-child(4)::after { animation-delay: 1.8s; }
-.stage-card:nth-child(5)::after { animation-delay: 2.4s; }
-.stage-card:nth-child(6)::after { animation-delay: 3.0s; }
-@keyframes scanline {
-  0%   { top: -40%; }
-  60%  { top: 120%; }
-  100% { top: 120%; }
-}
-
-/* CASE label glitch flicker */
-.case-label {
-  position: relative;
-}
-.case-label::before {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  color: var(--cyan);
-  clip-path: inset(0 0 0 0);
-  animation: glitchFlicker 8s steps(1) infinite;
-  opacity: 0;
-}
-@keyframes glitchFlicker {
-  0%,  94%, 100% { opacity: 0; transform: none; }
-  95%            { opacity: 0.8; transform: translateX(-2px); clip-path: inset(20% 0 60% 0); }
-  96%            { opacity: 0;  }
-  97%            { opacity: 0.6; transform: translateX(2px);  clip-path: inset(60% 0 10% 0); }
-  98%            { opacity: 0;  }
-}
-
-/* Incident heading word-by-word reveal */
-.word-reveal .word {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
-}
-.word-reveal.visible .word {
-  opacity: 1;
-  transform: translateY(0);
-}
-.word-reveal.visible .word:nth-child(1)  { transition-delay: 0.00s; }
-.word-reveal.visible .word:nth-child(2)  { transition-delay: 0.08s; }
-.word-reveal.visible .word:nth-child(3)  { transition-delay: 0.16s; }
-.word-reveal.visible .word:nth-child(4)  { transition-delay: 0.24s; }
-.word-reveal.visible .word:nth-child(5)  { transition-delay: 0.32s; }
-.word-reveal.visible .word:nth-child(6)  { transition-delay: 0.40s; }
-
-/* Buttons subtle shimmer on hover */
-.btn.primary {
-  position: relative;
-  overflow: hidden;
-}
-.btn.primary::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -60%;
-  width: 40%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
-  transform: skewX(-20deg);
-  transition: left 0.5s ease;
-  pointer-events: none;
-}
-.btn.primary:hover::after { left: 120%; }
-
-/* Tag hover pop */
-.tag {
-  transition: transform 0.15s var(--ease), border-color 0.15s, background 0.15s;
-}
-.tag:hover {
-  transform: translateY(-2px) scale(1.04);
-  border-color: var(--line2);
-  background: color-mix(in srgb, var(--cyan) 12%, var(--solid));
-}
-
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<!-- FIX: Skip to content link -->
-<a class="skip-link" href="#main">Skip to main content</a>
+<div class="rail" id="rail">
+  <div class="rail-in">
+    <span class="rail-id">Karan Soni — SOC Analyst</span>
+    <span class="rail-facts">Oshawa, ON · CySA+ scheduled · available immediately</span>
+    <a class="rail-cta" href="karan-soni-resume.pdf">Resume (PDF)</a>
+  </div>
+</div>
 
-<div class="progress" id="progress"></div>
-
-<header class="nav" role="banner">
-  <div class="wrap">
-    <!-- FIX: SVG inline logo -->
-    <a class="brand" href="#home">
-      <svg class="brand-logo" aria-label="KS logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="32" height="32" rx="8" fill="url(#lg)"/>
-        <text x="16" y="22" font-size="14" font-weight="900" text-anchor="middle" fill="#04121b" font-family="monospace">KS</text>
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#69d6ff"/><stop offset="1" stop-color="#5ff0cf"/></linearGradient></defs>
-      </svg>
-      <span>Karan Soni</span>
-    </a>
-    <ul class="links" role="list">
-      <li><a href="#incident">Incident</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#certifications">Certifications</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div style="display:flex;gap:8px">
-      <!-- FIX: aria-label on icon buttons -->
-      <button class="iconbtn" id="themeToggle" type="button" aria-label="Switch to light mode">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button class="iconbtn hamb" id="mobileToggle" type="button" aria-label="Open menu" aria-expanded="false">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
+<header class="mast">
+  <div class="wrap mast-grid">
+    <div>
+      <p class="eyebrow">Detection engineering portfolio</p>
+      <h1>Karan Soni</h1>
+      <p class="role">SOC Analyst — blue team, hands on keyboard</p>
+      <p class="where">Oshawa, Ontario &nbsp;·&nbsp; open to hybrid and remote across Canada</p>
+      <ul class="mast-links">
+        <li><a class="primary" href="karan-soni-resume.pdf">Resume (PDF)</a></li>
+        <li><a href="mailto:sonikaran8899@gmail.com">sonikaran8899@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/in/karan-soni-4b56a11b4/">LinkedIn</a></li>
+        <li><a href="https://github.com/karansoni8">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="status">
+      <dl>
+        <dt>Status</dt><dd><span class="live"></span>Open to work</dd>
+        <dt>Lab</dt><dd>7 hosts, running</dd>
+        <dt>Next cert</dt><dd>CySA+ CS0-004</dd>
+        <dt>Location</dt><dd>Oshawa, ON</dd>
+      </dl>
     </div>
   </div>
 </header>
 
-<nav class="mobile" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
-  <a href="#incident">Incident</a>
-  <a href="#about">About</a>
-  <a href="#skills">Skills</a>
-  <a href="#experience">Experience</a>
-  <a href="#projects">Projects</a>
-  <a href="#certifications">Certifications</a>
-  <a href="#contact">Contact</a>
-</nav>
-
-<div class="alert-feed" id="alertFeed" aria-live="polite"></div>
-<div class="alert-toggle">
-  <button class="btn" id="replayAlerts" type="button">&#9654; Replay Guide</button>
-</div>
-
 <main id="main">
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="wrap hero-grid">
-    <div class="reveal hero-animate">
-      <div class="pill"><span class="live"></span>Interactive Incident Portfolio</div>
-      <h1>Investigate<br>Karan Soni.</h1>
-      <p class="lead">A realistic SOC investigation begins with unusual authentication activity, noisy network telemetry, and log evidence that gradually reveals my cybersecurity profile, hands-on projects, certifications, and contact channels.</p>
-      <div class="tags" id="heroTags">
-        <span class="tag">SIEM</span>
-        <span class="tag">Threat Hunting</span>
-        <span class="tag">Traffic Analysis</span>
-        <span class="tag">Incident Response</span>
-      </div>
-      <div class="btns">
-        <a class="btn primary" href="#incident">Start Case</a>
-        <button class="btn" id="startGuided" type="button">Guided Investigation</button>
-        <a class="btn" href="#contact">Contact</a>
-      </div>
-      <div id="socials" class="socials"></div>
-      <p class="hero-foot case-label" data-text="CASE KS-2026 — AUTH ANOMALY — PORTFOLIO EVIDENCE">CASE KS-2026 — AUTH ANOMALY — PORTFOLIO EVIDENCE</p>
-    </div>
-    <aside class="card cmd reveal cmd-animate">
-      <div class="cmdtop">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="cmdtitle">interactive terminal</div>
-      </div>
-      <div class="cmdbody">
-        <div class="pill"><span class="live"></span>SOC ACTIVE</div>
-        <div class="minigrid">
-          <div class="mini"><div class="label">Location</div><div class="value">Oshawa, ON</div></div>
-          <div class="mini"><div class="label">Current study</div><div class="value">Cybersecurity Cert.</div></div>
-          <div class="mini"><div class="label">Primary focus</div><div class="value">SIEM &amp; Blue Team</div></div>
-          <div class="mini"><div class="label">Cert path</div><div class="value">CCNA · CySA+</div></div>
-        </div>
-        <div class="screen" id="cmdScreen"></div>
-        <div class="cmdactions" id="cmdActions"></div>
-      </div>
-    </aside>
-  </div>
-</section>
-
-<!-- INCIDENT WALKTHROUGH -->
-<section class="section" id="incident">
+<section class="sec">
   <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Incident Scenario</div>
-      <h2 class="word-reveal"><span class="word">Stage-by-stage</span> <span class="word">portfolio</span> <span class="word">investigation.</span></h2>
-      <p class="lead">The walkthrough follows a realistic analyst flow — triage the alert, correlate telemetry, review response history, inspect project artifacts, validate credentials, and close the case with contact details.</p>
+    <div class="sec-head rise">
+      <p class="eyebrow">01 — What I actually do</p>
+      <h2>Open an alert.</h2>
+      <p>My lab's triage queue. Each row is a detection I wrote and an attack I ran against my own network. The last row is a full intrusion followed end to end.</p>
     </div>
-    <div class="projectgrid" id="incidentGrid"></div>
-  </div>
-</section>
 
-<!-- ABOUT -->
-<section class="section" id="about">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">About</div>
-      <h2>Cybersecurity profile.</h2>
-      <p class="lead">Practical security work across SIEM engineering, network traffic analysis, documentation, compliance support, and incident-focused operations.</p>
-    </div>
-    <div class="grid2">
-      <article class="card about reveal" id="aboutText"></article>
-      <div class="statgrid" id="stats"></div>
-    </div>
-  </div>
-</section>
+    <div class="queue rise">
+      <div class="qbar"><span>Elastic SIEM · lab.internal</span><span>5 open</span><span class="ingest"></span></div>
 
-<!-- SKILLS -->
-<section class="section" id="skills">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Skills</div>
-      <h2>Technical focus.</h2>
-    </div>
-    <div class="skillgrid" id="skillsGrid"></div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section class="section" id="experience">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Experience</div>
-      <h2>Professional experience.</h2>
-      <p class="lead">Resume-aligned experience showing incident triage, network monitoring, documentation, and compliance support.</p>
-    </div>
-    <article class="card experience reveal">
-      <div class="exphead">
-        <div class="exptitle">
-          <div class="avatar">IT</div>
-          <div>
-            <strong>IT Support Intern</strong><br>
-            <span class="muted">Logic Play Web Solutions &bull; Oakville, ON &bull; Jan 2025 – Aug 2025</span>
-          </div>
-        </div>
-        <div class="pill">OPS SUPPORT</div>
-      </div>
-      <div class="twocol">
-        <div class="box">
-          <h4>Key contributions</h4>
-          <ul>
-            <li>Resolved 60+ user incidents per month with 90% first-contact resolution.</li>
-            <li>Monitored LAN/WAN health using Wireshark and Nmap.</li>
-            <li>Implemented role-based access controls and supported system hardening.</li>
-          </ul>
-        </div>
-        <div class="box">
-          <h4>Security &amp; documentation</h4>
-          <ul>
-            <li>Supported GDPR and ISO 27001 documentation initiatives.</li>
-            <li>Tracked incidents in ServiceNow and Jira.</li>
-            <li>Authored runbooks, SOPs, and knowledge-base articles.</li>
-          </ul>
-        </div>
-      </div>
-    </article>
-
-    <!-- "Your company here" card -->
-    <article class="card experience reveal" style="border: 1px dashed var(--line2); background: color-mix(in srgb, var(--solid) 60%, transparent); margin-top: var(--space-5);">
-      <div class="exphead">
-        <div class="exptitle">
-          <div class="avatar" style="background: linear-gradient(135deg, rgba(105,214,255,.15), rgba(95,240,207,.10)); color: var(--cyan); border: 1px dashed var(--line2);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div>
-            <strong style="color: var(--cyan);">Your Company Name Here</strong><br>
-            <span class="muted">Security Analyst / SOC Role &bull; Your Location &bull; 2026 – Present</span>
-          </div>
-        </div>
-        <div class="pill" style="border-style: dashed; opacity: 0.75;">OPEN ROLE</div>
-      </div>
-      <div style="padding: var(--space-4) 0 var(--space-2); text-align: center;">
-        <p style="color: var(--muted); font-size: var(--text-sm); max-width: 52ch; margin-inline: auto; line-height: 1.7;">
-          This spot is reserved for you. 😊<br>
-          I'm actively looking for a <strong style="color: var(--text);">SOC Analyst, Security Analyst, or Blue Team</strong> role where I can bring my SIEM, traffic analysis, and incident response skills to your team.
-        </p>
-        <a class="btn primary" href="#contact" style="margin: var(--space-5) auto 0; display: inline-flex;">Let's talk →</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section class="section" id="projects">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Projects</div>
-      <h2>Selected work.</h2>
-      <p class="lead">Project cards open as investigation artifacts with challenge, approach, highlights, and outcomes.</p>
-    </div>
-    <div class="projectgrid" id="projectsGrid"></div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section class="section" id="education">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Education</div>
-      <h2>Education.</h2>
-    </div>
-    <div class="list" id="educationList"></div>
-  </div>
-</section>
-
-<!-- CERTIFICATIONS -->
-<section class="section" id="certifications">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Certifications</div>
-      <h2>Relevant certifications.</h2>
-      <p class="lead">Current and in-process certifications focused on enterprise networking, security, automation, and cyber defense.</p>
-    </div>
-    <div class="list" id="certList"></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="section" id="contact">
-  <div class="wrap">
-    <div class="head reveal">
-      <div class="eyebrow">Contact</div>
-      <h2>Case closure — connect.</h2>
-    </div>
-    <div class="contactgrid">
-      <article class="card form reveal">
-        <!-- FIX: proper form labels (visible, not placeholder-only) -->
-        <form class="formgrid" id="contactForm" novalidate>
-          <div class="form-field">
-            <label class="form-label" for="inp-name">Your name</label>
-            <input class="input" id="inp-name" name="name" type="text" placeholder="Jane Smith" autocomplete="name">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="inp-email">Email address</label>
-            <input class="input" id="inp-email" name="email" type="email" placeholder="jane@example.com" autocomplete="email">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="inp-subject">Subject</label>
-            <input class="input" id="inp-subject" name="subject" type="text" placeholder="Hiring inquiry">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="inp-message">Message</label>
-            <textarea class="input" id="inp-message" name="message" placeholder="Your message…"></textarea>
-          </div>
-          <button class="btn primary" type="submit">Compose email</button>
-          <div class="form-status" id="formStatus">Email draft prepared… Your mail app should open now.</div>
-          <p class="helper-text">This static portfolio opens the sender's email app with your address, subject, and message pre-filled. For direct inbox delivery, connect Formspree, Netlify Forms, or EmailJS later.</p>
-        </form>
+      <article class="alert" data-open="true" style="animation-delay:.05s">
+        <button class="alert-btn" aria-expanded="true">
+          <span class="sev sev-1">SEV-1</span>
+          <span><span class="alert-name">LSASS process access from unsigned binary</span><span class="alert-meta">Sysmon EID 10 · WIN-DC01 · T1003.001</span></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <div class="dwrap"><div class="dinner"><div class="detail">
+          <h4>What fired</h4>
+          <p>A process opened a handle to <code>lsass.exe</code> with read-memory access rights. That call pattern is what credential dumpers need and almost nothing legitimate does — which is why it's worth alerting on, and why it's noisy if written lazily.</p>
+          <h4>The rule</h4>
+          <pre class="code">event.code : "10"
+  and winlog.event_data.TargetImage : "*\\lsass.exe"
+  and winlog.event_data.GrantedAccess : ("0x1010" or "0x1410" or "0x143a")
+  and not process.executable : ("*\\MsMpEng.exe" or "*\\wmiprvse.exe")</pre>
+          <h4>What tuning taught me</h4>
+          <p>The first version fired 40+ times a day on Defender and WMI alone. Filtering on granted-access masks instead of process name cut the noise without blinding the rule to a renamed dumper — the mask is behaviour, the name is a string the attacker controls.</p>
+          <h4>Stack</h4>
+          <ul class="tags"><li>Sysmon</li><li>Elastic Agent / Fleet</li><li>KQL</li><li>T1003.001</li></ul>
+          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+        </div></div></div>
       </article>
-      <div class="list" id="contactList"></div>
+
+      <article class="alert" style="animation-delay:.11s">
+        <button class="alert-btn" aria-expanded="false">
+          <span class="sev sev-2">SEV-2</span>
+          <span><span class="alert-name">Encoded PowerShell command line</span><span class="alert-meta">Sysmon EID 1 · WIN-WKS02 · T1059.001</span></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <div class="dwrap"><div class="dinner"><div class="detail">
+          <h4>What fired</h4>
+          <p>PowerShell launched with <code>-enc</code> and a base64 blob. Encoding isn't malicious on its own — plenty of management tooling does it — so the rule scores on parent process rather than the flag alone.</p>
+          <h4>The rule</h4>
+          <pre class="code">process.name : "powershell.exe"
+  and process.command_line : ("*-enc*" or "*-EncodedCommand*")
+  and process.parent.name : ("winword.exe" or "excel.exe"
+                             or "outlook.exe" or "wscript.exe")</pre>
+          <h4>Why the parent matters</h4>
+          <p>An Office app spawning an encoded shell is the phishing macro chain in one line. Scoping to those parents took a rule that couldn't ship down to zero false positives across two weeks of lab traffic.</p>
+          <h4>Stack</h4>
+          <ul class="tags"><li>Sysmon</li><li>Elastic SIEM</li><li>KQL</li><li>T1059.001</li></ul>
+          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+        </div></div></div>
+      </article>
+
+      <article class="alert" style="animation-delay:.17s">
+        <button class="alert-btn" aria-expanded="false">
+          <span class="sev sev-2">SEV-2</span>
+          <span><span class="alert-name">Periodic outbound connection, low jitter</span><span class="alert-meta">Zeek conn.log · egress via pfSense · T1071.001</span></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <div class="dwrap"><div class="dinner"><div class="detail">
+          <h4>What fired</h4>
+          <p>Same internal host, same external IP, connections landing roughly every 60 seconds with very little variance and near-identical payload sizes. Humans don't browse like that. Implants do.</p>
+          <h4>How I found it</h4>
+          <pre class="code">zeek.session_id : *
+  and network.protocol : "http"
+  | stats count(), stddev(interval) by source.ip, destination.ip
+  | where stddev &lt; 5 and count() &gt; 30</pre>
+          <h4>The point</h4>
+          <p>This one doesn't come from an endpoint agent at all. Network telemetry catches what a compromised host would happily lie about — the argument for running Zeek alongside Sysmon rather than picking one.</p>
+          <h4>Stack</h4>
+          <ul class="tags"><li>Zeek 6.x</li><li>pfSense CE</li><li>Elastic SIEM</li><li>T1071.001</li></ul>
+          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+        </div></div></div>
+      </article>
+
+      <article class="alert" style="animation-delay:.23s">
+        <button class="alert-btn" aria-expanded="false">
+          <span class="sev sev-3">SEV-3</span>
+          <span><span class="alert-name">SMB exploitation attempt against legacy host</span><span class="alert-meta">Zeek notice · Kali → Metasploitable 2 · T1210</span></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <div class="dwrap"><div class="dinner"><div class="detail">
+          <h4>What fired</h4>
+          <p>I ran the attack. Metasploit against the deliberately vulnerable host, then went to the console cold to see what the stack actually caught versus what I knew had happened.</p>
+          <h4>The gap it exposed</h4>
+          <p>Zeek flagged the exploit traffic. The endpoint side showed nothing useful, because the target is Linux and I had no agent on it. Finding your own blind spot by attacking yourself is the difference between coverage you claim and coverage you have.</p>
+          <h4>Stack</h4>
+          <ul class="tags"><li>Kali</li><li>Metasploit</li><li>Zeek</li><li>T1210</li></ul>
+          <a class="proof" href="https://github.com/karansoni8">Write-up and rule source on GitHub →</a>
+        </div></div></div>
+      </article>
+
+      <article class="alert" style="animation-delay:.29s">
+        <button class="alert-btn" aria-expanded="false">
+          <span class="sev sev-c">CASE</span>
+          <span><span class="alert-name">Full intrusion chain, five stages — correlated case</span><span class="alert-meta">Macro execution → credential theft → lateral movement · 90 min</span></span>
+          <span class="chev" aria-hidden="true">›</span>
+        </button>
+        <div class="dwrap"><div class="dinner"><div class="detail">
+          <h4>What this is</h4>
+          <p>A single simulated intrusion I ran end to end, in the order I actually saw it. Individual rules are table stakes. Connecting them into one story, and knowing what to do at each step, is the job.</p>
+          <div class="chain">
+            <div class="step">
+              <span class="t-off">T+00:00</span>
+              <h5>Macro-borne execution on a workstation</h5>
+              <p>Simulated phishing document runs a macro. Sysmon EID 1 shows <code>winword.exe</code> spawning <code>powershell.exe</code> with an encoded command. The parent-process rule fires within seconds.</p>
+              <span class="call">Confirmed true positive — isolate host</span>
+            </div>
+            <div class="step">
+              <span class="t-off">T+00:04</span>
+              <h5>Discovery, quiet and unalerted</h5>
+              <p>The shell enumerates domain users and local groups. Nothing fires — I had telemetry but no rule. This is where I learned discovery activity needs volumetric rules, not signature rules.</p>
+              <span class="call">Documented as detection gap</span>
+            </div>
+            <div class="step">
+              <span class="t-off">T+00:11</span>
+              <h5>Credential access on the domain controller</h5>
+              <p>A handle opens against <code>lsass.exe</code> with dump-capable access rights. In a real environment this is the moment the incident stops being a workstation problem and becomes a domain problem.</p>
+              <span class="call">Escalate — assume domain credentials exposed</span>
+            </div>
+            <div class="step">
+              <span class="t-off">T+00:19</span>
+              <h5>Lateral movement over SMB</h5>
+              <p>Zeek shows admin-share access to a second host minutes after the credential theft. The sequence is what makes it conclusive — the SMB session alone would have been ambiguous.</p>
+              <span class="call">Contain both hosts — force credential reset</span>
+            </div>
+            <div class="step">
+              <span class="t-off">T+01:30</span>
+              <h5>Write-up and rule changes</h5>
+              <p>Documented the chain, added the missing discovery detection, and re-ran the same attack to confirm the new rule fired. An incident that doesn't change your detections was a wasted incident.</p>
+              <span class="call">One new rule, one tuned, one gap closed</span>
+            </div>
+          </div>
+          <a class="proof" href="https://github.com/karansoni8">Full incident report on GitHub →</a>
+        </div></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <p class="eyebrow">02 — Coverage, honestly</p>
+      <h2>Where the lab sees, and where it's blind.</h2>
+      <p>Mapped to MITRE ATT&amp;CK. The gaps are on the board on purpose — a coverage map with no gaps is a map nobody checked.</p>
+    </div>
+
+    <div class="metrics rise" id="metrics">
+      <div class="metric"><div class="m-num" data-to="7">0</div><div class="m-lab">Hosts built and broken</div></div>
+      <div class="metric"><div class="m-num" data-to="18">0</div><div class="m-lab">ATT&amp;CK techniques mapped</div></div>
+      <div class="metric"><div class="m-num" data-to="9">0</div><div class="m-lab">Detections written and tested</div></div>
+      <div class="metric"><div class="m-num" data-to="3">0</div><div class="m-lab">Gaps documented, not hidden</div></div>
+    </div>
+
+    <div class="legend rise">
+      <span><i class="sw" style="background:var(--moss-wash);border-color:var(--moss-line);color:var(--moss)">✓</i>Detection written and tested</span>
+      <span><i class="sw" style="background:var(--amber-wash);border-color:var(--amber-line);color:var(--amber)">~</i>Telemetry exists, rule not tuned</span>
+      <span><i class="sw" style="background:var(--card);color:var(--slate)">·</i>Known gap</span>
+    </div>
+
+    <div class="matrix rise" id="matrix">
+      <div class="col"><h3>Initial access</h3>
+        <button class="tech part" aria-pressed="false" data-d="Mail telemetry is limited in the lab, but the payload stage is covered — the Office-spawns-PowerShell rule catches the second hop."><span class="tid">T1566</span>Phishing<span class="mark">~</span></button>
+        <button class="tech cov" aria-pressed="false" data-d="Zeek notice log plus pfSense firewall events. Tested against Metasploitable 2 from Kali."><span class="tid">T1190</span>Exploit public-facing app<span class="mark">✓</span></button>
+        <button class="tech part" aria-pressed="false" data-d="4624 logon telemetry is flowing. No behavioural baseline yet, so anomalous-hours logons would slip through."><span class="tid">T1078</span>Valid accounts<span class="mark">~</span></button>
+      </div>
+      <div class="col"><h3>Execution</h3>
+        <button class="tech cov" aria-pressed="false" data-d="Encoded-command rule scoped by parent process. Zero false positives over two weeks of lab traffic."><span class="tid">T1059.001</span>PowerShell<span class="mark">✓</span></button>
+        <button class="tech cov" aria-pressed="false" data-d="Baselined two weeks of task creation first, then alerted on the exceptions rather than the raw event."><span class="tid">T1053.005</span>Scheduled task<span class="mark">✓</span></button>
+        <button class="tech gap" aria-pressed="false" data-d="Known gap. Needs a user-behaviour data source I have not stood up yet."><span class="tid">T1204</span>User execution<span class="mark">·</span></button>
+      </div>
+      <div class="col"><h3>Persistence</h3>
+        <button class="tech cov" aria-pressed="false" data-d="Event 7045 on the domain controller. Low volume, so every hit gets manual triage."><span class="tid">T1543.003</span>Windows service<span class="mark">✓</span></button>
+        <button class="tech part" aria-pressed="false" data-d="Sysmon EID 13 registry telemetry is collected. Rule written, not yet tuned against noise."><span class="tid">T1547.001</span>Run keys<span class="mark">~</span></button>
+        <button class="tech cov" aria-pressed="false" data-d="Event 4720 correlated against the creating account and the session that preceded it."><span class="tid">T1136</span>Create account<span class="mark">✓</span></button>
+      </div>
+      <div class="col"><h3>Credential access</h3>
+        <button class="tech cov" aria-pressed="false" data-d="Sysmon EID 10 filtered on granted-access masks rather than process name — behaviour beats strings."><span class="tid">T1003.001</span>LSASS memory<span class="mark">✓</span></button>
+        <button class="tech cov" aria-pressed="false" data-d="4625 failure-rate threshold per source, with a lockout correlation to catch password spraying."><span class="tid">T1110</span>Brute force<span class="mark">✓</span></button>
+        <button class="tech gap" aria-pressed="false" data-d="Known gap. Kerberoasting detection needs 4769 ticket-request analysis I have not built yet."><span class="tid">T1558</span>Kerberos tickets<span class="mark">·</span></button>
+      </div>
+      <div class="col"><h3>Lateral movement</h3>
+        <button class="tech part" aria-pressed="false" data-d="Zeek sees the SMB sessions. Distinguishing admin activity from attacker movement needs a baseline."><span class="tid">T1021.002</span>SMB / admin shares<span class="mark">~</span></button>
+        <button class="tech cov" aria-pressed="false" data-d="Caught the Metasploit SMB attempt end to end — and exposed that the Linux target had no endpoint agent."><span class="tid">T1210</span>Exploit remote service<span class="mark">✓</span></button>
+        <button class="tech part" aria-pressed="false" data-d="4624 type 10 logons are collected. No alerting on unusual source or timing yet."><span class="tid">T1021.001</span>RDP<span class="mark">~</span></button>
+      </div>
+      <div class="col"><h3>Command and control</h3>
+        <button class="tech cov" aria-pressed="false" data-d="Beacon detection on connection interval variance from Zeek conn.log. Low jitter is the tell."><span class="tid">T1071.001</span>Web protocols<span class="mark">✓</span></button>
+        <button class="tech part" aria-pressed="false" data-d="Zeek DNS logs are ingested. Tunnelling detection by query-length entropy is next on the build list."><span class="tid">T1071.004</span>DNS<span class="mark">~</span></button>
+        <button class="tech gap" aria-pressed="false" data-d="Known gap. JA3 fingerprinting is the planned approach — not implemented."><span class="tid">T1573</span>Encrypted channel<span class="mark">·</span></button>
+      </div>
+    </div>
+    <div class="readout" id="readout" aria-live="polite"><strong>Pick a technique</strong> to see what the lab does about it.</div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rise">
+      <p class="eyebrow">03 — The environment</p>
+      <h2>Seven machines I built and broke.</h2>
+      <p>Every node here I installed, misconfigured, fixed, and logged.</p>
+    </div>
+    <div class="stack rise">
+      <div class="node"><span class="n-role">SIEM</span><div class="n-name">Elastic Stack</div><p>Elasticsearch, Kibana, Fleet server. Custom KQL detection rules and threat-hunting dashboards mapped to ATT&amp;CK.</p></div>
+      <div class="node"><span class="n-role">Endpoint telemetry</span><div class="n-name">Sysmon + Elastic Agent</div><p>Tuned config for process creation, network connections, registry and handle access.</p></div>
+      <div class="node"><span class="n-role">Network monitoring</span><div class="n-name">Zeek 6.x</div><p>Conn, DNS, HTTP and SSL logs shipped into the SIEM for east-west visibility.</p></div>
+      <div class="node"><span class="n-role">Perimeter</span><div class="n-name">pfSense CE</div><p>Segmentation between attack, victim and monitoring subnets. Firewall logs as a data source.</p></div>
+      <div class="node"><span class="n-role">Identity</span><div class="n-name">Windows Server AD</div><p>Domain controller, Group Policy, PKI via AD Certificate Services with a custom EFS template, and Ubuntu domain join over SSSD and Kerberos.</p></div>
+      <div class="node"><span class="n-role">Offense</span><div class="n-name">Kali Linux</div><p>The other side of the keyboard. Scanning, enumeration and exploitation to generate real signal.</p></div>
+      <div class="node"><span class="n-role">Target</span><div class="n-name">Metasploitable 2</div><p>Deliberately vulnerable host used to test whether detections actually fire under attack.</p></div>
+      <div class="node"><span class="n-role">Second platform</span><div class="n-name">Security Onion 2.4</div><p>Deployed in EVAL mode against RAM constraints — a real capacity-planning lesson.</p></div>
+      <div class="node"><span class="n-role">Also running</span><div class="n-name">Splunk UF + Zabbix</div><p>Splunk Universal Forwarder log shipping, and SNMP monitoring where I debugged failures caused by DHCP-driven IP drift.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rise"><p class="eyebrow">04 — Track record</p><h2>How I got here.</h2></div>
+    <div class="tl rise" id="tl">
+      <div class="entry">
+        <span class="when">2026 — PRESENT</span>
+        <h3>Structured SOC / blue team track</h3>
+        <p class="org">Mentored · 10–15 hours per week</p>
+        <ul><li>16-week roadmap covering detection engineering, log analysis and threat intel</li><li>Built the lab above from bare metal to a working detection pipeline</li><li>Preparing for CompTIA CySA+ (CS0-004) — exam scheduled</li></ul>
+      </div>
+      <div class="entry">
+        <span class="when">CURRENT</span>
+        <h3>Cybersecurity Graduate Certificate</h3>
+        <p class="org">Durham College · Oshawa, Ontario</p>
+        <ul><li>Splunk Universal Forwarder deployment and log ingestion</li><li>Zabbix SNMP monitoring, including debugging IP drift across monitored hosts</li><li>Linux-to-AD domain join with SSSD, Kerberos and realm</li><li>IT governance coursework across COBIT, NIST and ITIL</li></ul>
+      </div>
+      <div class="entry">
+        <span class="when">SEP 2025 — PRESENT</span>
+        <h3>Independent Security Consultant</h3>
+        <p class="org">Security Health Check · small business security assessments</p>
+        <ul><li>Assessments covering identity hygiene, patch posture, endpoint config, backups and network exposure</li><li>Threat intelligence knowledge base used as the reference library for findings</li></ul>
+      </div>
+      <div class="entry">
+        <span class="when">JAN — AUG 2025</span>
+        <h3>IT Support Technician (contract)</h3>
+        <p class="org">Logic Play Web Solutions · Oakville, Ontario</p>
+        <ul><li>60+ incidents per month via ServiceNow and Jira, 90% first-contact resolution</li><li>Active Directory accounts, Group Policy and least-privilege access review</li><li>Wireshark and Nmap traffic analysis; authored runbooks and SOPs that cut mean response time by 20%</li></ul>
+      </div>
+      <div class="entry">
+        <span class="when">JAN 2025</span>
+        <h3>Cisco Networking Academy — CCNA course certificate</h3>
+        <p class="org">Enterprise Networking, Security and Automation · via LaSalle College</p>
+        <p class="note">This is the Networking Academy curriculum certificate, not the Cisco 200-301 proctored exam. The 200-301 is in progress separately.</p>
+      </div>
+      <div class="entry">
+        <span class="when">EARLIER</span>
+        <h3>Network Management Diploma · Bachelor of Computer Applications</h3>
+        <p class="org">LaSalle College, Montréal · Parul University, India</p>
+      </div>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer role="contentinfo">
-  <div class="wrap footer">
-    <p>&copy; 2026 Karan Soni — Incident Response Portfolio</p>
-    <p>Designed as a guided SOC investigation.</p>
+<footer class="foot">
+  <div class="wrap">
+    <p class="eyebrow">05 — Next step</p>
+    <h2>I'd like a queue with real alerts in it.</h2>
+    <p>Looking for a SOC Analyst Tier 1, security operations, or vulnerability management role. Happy to walk through any detection on this page in an interview, live, with the lab running.</p>
+    <ul class="links">
+      <li><a href="karan-soni-resume.pdf">Resume (PDF)</a></li>
+      <li><a href="mailto:sonikaran8899@gmail.com">sonikaran8899@gmail.com</a></li>
+      <li><a href="tel:+14387730899">+1 438-773-0899</a></li>
+      <li><a href="https://www.linkedin.com/in/karan-soni-4b56a11b4/">LinkedIn</a></li>
+      <li><a href="https://github.com/karansoni8">GitHub</a></li>
+    </ul>
+    <p class="colophon">Karan Soni · Oshawa, Ontario · built by hand, no template</p>
   </div>
 </footer>
 
-<!-- PROJECT MODAL -->
-<div class="modalbg" id="modalBg"></div>
-<div class="card modal" id="modal" role="dialog" aria-modal="true" aria-label="Project detail">
-  <!-- FIX: aria-label on close button -->
-  <button class="iconbtn close" id="closeModal" type="button" aria-label="Close project detail">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  </button>
-  <div id="modalBody"></div>
-</div>
-
 <script>
-'use strict';
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ─── DATA ─────────────────────────────────────────────── */
-const data = {
-  cmd: {
-    overview: [
-      'Initializing CASE KS-2026...',
-      'Signal: unusual authentication pattern',
-      'Analyst profile: Karan Soni',
-      'Mode: guided incident investigation',
-    ],
-    skills: [
-      'Loading toolset...',
-      'ELK Stack · Kibana · Wireshark · Security Onion · Snort IDS',
-      'PowerShell · Python · Bash · ServiceNow · Jira',
-    ],
-    certs: [
-      'Checking certification path...',
-      'CCNA Enterprise Networking, Security, and Automation — Certified',
-      'CompTIA CySA+ — In Progress',
-      'CompTIA Network+ — Certified',
-    ],
-    contact: [
-      'Contact channels verified',
-      'Email: sonikaran8899@gmail.com',
-      'LinkedIn and GitHub links active',
-    ],
-  },
-  socials: [
-    ['Email', 'mailto:sonikaran8899@gmail.com'],
-    ['GH', 'https://github.com/karansoni8'],
-    ['in', 'https://ca.linkedin.com/in/karan-soni-4b56a11b4'],
-  ],
-  incident: [
-    ['Stage 01 — Alert Triage', 'Unusual authentication activity triggers the investigation and reveals the candidate context.', ['Identity context', 'SOC focus', 'Blue Team']],
-    ['Stage 02 — Telemetry Correlation', 'Logs, packets, and tool evidence reveal technical capability.', ['ELK Stack', 'Kibana', 'Wireshark', 'Snort IDS']],
-    ['Stage 03 — Response Review', 'Operational evidence reveals support, documentation, and incident-handling habits.', ['Incident triage', 'Access control', 'Runbooks', 'ServiceNow']],
-    ['Stage 04 — Artifact Recovery', 'Hands-on projects appear as recovered case files.', ['SIEM dashboard', 'PCAP analysis', 'Security Onion', 'MITRE mapping']],
-    ['Stage 05 — Credential Validation', 'Education and certification evidence is validated before closing.', ['CCNA Certified', 'Network+ Certified', 'CySA+ In Progress']],
-    ['Stage 06 — Case Closure', 'Contact evidence is unlocked for follow-up.', ['Email', 'LinkedIn', 'GitHub', 'Phone']],
-  ],
-  about: [
-    'Cybersecurity professional with hands-on experience in SIEM implementation, network traffic analysis, threat detection, and security documentation.',
-    'Grounded in IT support with a strong foundation in incident response, access control, and compliance frameworks including GDPR and ISO 27001.',
-    'Experienced in translating technical findings into actionable runbooks, SOPs, and stakeholder-ready reports while building practical SOC and blue-team portfolio projects.',
-  ],
-  stats: [
-    ['02', 'Major cyber projects'],
-    ['01', 'Professional role'],
-    ['03', 'Education items'],
-    ['Oshawa', 'Based in Ontario'],
-  ],
-  skills: [
-    ['SIEM Monitoring', 'Hands-on security monitoring, alert validation, threat detection, and investigative workflows.', ['ELK Stack', 'Kibana', 'Security Onion', 'Snort IDS'], 'siem'],
-    ['Network Traffic Analysis', 'Packet inspection, anomaly review, and traffic analysis for visibility and investigations.', ['Wireshark', 'Nmap', 'PCAP Analysis', 'Snort'], 'network'],
-    ['Systems & Cloud', 'Experience across Microsoft environments, virtualization, and security operations tooling.', ['Microsoft 365', 'VMware', 'Hyper-V', 'Azure/AWS'], 'cloud'],
-    ['Documentation & Automation', 'Runbooks, SOPs, knowledge-base content, and scripting to improve response quality.', ['PowerShell', 'Python', 'Bash', 'ServiceNow/Jira'], 'docs'],
-    ['Threat Detection', 'IDS/IPS rule creation, alert correlation, and behavioral analysis across network and host logs.', ['Snort', 'Kibana KQL', 'MITRE ATT&CK', 'Log correlation'], 'shield'],
-    ['Compliance Support', 'Documentation and operational support for regulatory and security framework requirements.', ['GDPR', 'ISO 27001', 'Audit prep', 'Risk registers'], 'compliance'],
-  ],
-  projects: [
-    {
-      id: 'siem',
-      title: 'SIEM Log Analysis & Threat Hunting Dashboard',
-      summary: 'Centralized logs from routers, firewalls, and endpoints into ELK Stack for anomaly detection and threat hunting.',
-      challenge: 'Create a practical SIEM pipeline that normalizes diverse log sources and surfaces suspicious behavior through clear dashboards and alerting.',
-      approach: 'Ingested logs into ELK Stack, normalized formats, and built Kibana dashboards with custom KQL queries.',
-      details: 'Focused on log visibility, anomaly detection, lateral movement patterns, privilege escalation indicators, and credential-abuse activity.',
-      highlights: ['Ingested and normalized logs from routers, firewalls, and endpoints', 'Built Kibana dashboards and KQL queries', 'Configured threshold-based and behavioral alerts', 'Monitored source health and retention coverage'],
-      outcomes: ['Improved investigation speed', 'Demonstrated SIEM engineering and threat hunting capability', 'Created a SOC-aligned case study'],
-      tags: ['ELK Stack', 'Kibana', 'Syslog', 'Threat Hunting', 'SIEM'],
-    },
-    {
-      id: 'traffic',
-      title: 'Network Traffic Analysis & Threat Detection Lab',
-      summary: 'Analyzed malicious PCAP captures and live traffic to identify exploitation attempts, brute-force attacks, and reconnaissance.',
-      challenge: 'Connect packet analysis, IDS alerting, and forensic reporting into one investigative workflow.',
-      approach: 'Used Wireshark, Security Onion, Snort IDS, and Kali Linux to analyze activity and correlate IDS alerts with raw packet data.',
-      details: 'Focused on false-positive reduction, threat behavior documentation, IOCs, MITRE ATT&CK mappings, and mitigations.',
-      highlights: ['Analyzed malicious PCAP captures', 'Identified exploitation, brute-force, and reconnaissance activity', 'Deployed custom Snort rules', 'Produced forensic-style reporting'],
-      outcomes: ['Strengthened packet-analysis skills', 'Improved IDS alert correlation', 'Delivered a complete detection case study'],
-      tags: ['Wireshark', 'Security Onion', 'Snort IDS', 'Kali Linux', 'PCAP'],
-    },
-  ],
-  education: [
-    ['Cybersecurity Graduate Certificate', 'Durham College, Oshawa, ON', 'Jan 2026 – Aug 2026', 'edu_cyber'],
-    ['Network Management with Cisco and Microsoft', 'LaSalle College, Montreal, QC', 'May 2024 – Sep 2025', 'edu_network'],
-    ['Bachelor of Computer Applications (BCA)', 'Parul University, Vadodara, India', 'Jun 2019 – Jun 2022', 'edu_degree'],
-  ],
-  certs: [
-    ['CCNA Enterprise Networking, Security, and Automation', 'Cisco', 'Certified', 'cert_ccna'],
-    ['CompTIA CySA+', 'CompTIA', 'In Progress', 'cert_cysa'],
-    ['CompTIA Network+', 'CompTIA', 'Certified', 'cert_net'],
-  ],
-  contacts: [
-    ['Email', 'sonikaran8899@gmail.com', 'mailto:sonikaran8899@gmail.com', '✉️'],
-    ['Phone', '+1 438-773-0899', 'tel:14387730899', '📞'],
-    ['LinkedIn', 'linkedin.com/in/karan-soni-4b56a11b4', 'https://ca.linkedin.com/in/karan-soni-4b56a11b4', 'in'],
-    ['GitHub', 'github.com/karansoni8', 'https://github.com/karansoni8', '⌥'],
-    ['Location', 'Oshawa, ON, Canada', null, '📍'],
-  ],
-};
-
-const alerts = [
-  { sev:'high', k:'IR-001', title:'Unusual authentication pattern detected', body:'Begin triage and review the investigation timeline.', target:'incident', cmd:'overview', delay:800 },
-  { sev:'med',  k:'IR-002', title:'Analyst identity confirmed', body:'Profile evidence is ready for review.', target:'about', cmd:'overview', delay:3400 },
-  { sev:'med',  k:'IR-003', title:'Telemetry sources correlated', body:'Tooling and skill evidence is ready.', target:'skills', cmd:'skills', delay:6100 },
-  { sev:'low',  k:'IR-004', title:'Response history attached', body:'Operational experience is available.', target:'experience', cmd:'skills', delay:8800 },
-  { sev:'high', k:'IR-005', title:'Forensic artifacts recovered', body:'Project case files are ready to open.', target:'projects', cmd:'overview', delay:11500 },
-  { sev:'low',  k:'IR-006', title:'Credential evidence validated', body:'Certification records are ready.', target:'certifications', cmd:'certs', delay:14200 },
-  { sev:'low',  k:'IR-007', title:'Case closure ready', body:'Contact channels are unlocked.', target:'contact', cmd:'contact', delay:16900 },
-];
-
-/* ─── UTILITIES ─────────────────────────────────────────── */
-const safe = v => String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const setHTML = (id, h) => { const e = document.getElementById(id); if (e) e.innerHTML = h; };
-const scrollTo = t => {
-  const e = document.getElementById(t);
-  if (!e) return;
-  e.scrollIntoView({ behavior:'smooth', block:'start' });
-  e.classList.remove('section-pulse');
-  void e.offsetWidth;
-  e.classList.add('section-pulse');
-};
-
-/* ─── TERMINAL ─────────────────────────────────────────── */
-let termTimers = [];
-function clearTermTimers() { termTimers.forEach(clearTimeout); termTimers = []; }
-function typeCmd(k = 'overview') {
-  clearTermTimers();
-  const s = document.getElementById('cmdScreen');
-  if (!s) return;
-  const lines = data.cmd[k] || data.cmd.overview;
-  s.innerHTML = '';
-  let i = 0;
-  function next() {
-    if (i >= lines.length) {
-      s.insertAdjacentHTML('beforeend', '<div class="line"><span class="prompt">$</span><span class="ok">analysis complete</span><span class="cursor"></span></div>');
-      return;
-    }
-    let text = lines[i++], j = 0;
-    const row = document.createElement('div');
-    row.className = 'line';
-    row.innerHTML = '<span class="prompt">$</span><span></span>';
-    s.appendChild(row);
-    const sp = row.querySelector('span:last-child');
-    function tick() {
-      sp.textContent = text.slice(0, j);
-      if (j < text.length) { j++; termTimers.push(setTimeout(tick, 16)); }
-      else termTimers.push(setTimeout(next, 140));
-    }
-    tick();
-  }
-  next();
-  document.querySelectorAll('.cmd-btn').forEach(b => b.classList.toggle('active', b.dataset.cmd === k));
-}
-
-/* ─── SVG ICON MAP ─────────────────────────────────────────── */
-const svgIcons = {
-  siem: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h2l2 4 2-6 2 4h2"/></svg>`,
-  network: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>`,
-  cloud: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
-  docs: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-  shield: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
-  compliance: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
-  proj_siem: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M5 8h2l2 5 2-8 2 5h2"/></svg>`,
-  proj_traffic: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
-  // Education icons
-  edu_cyber: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
-  edu_network: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="10" r="3"/></svg>`,
-  edu_degree: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
-  // Certification icons
-  cert_ccna: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
-  cert_cysa: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>`,
-  cert_net: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><path d="M5 8v4h14V8M12 12v4"/></svg>`,
-};
-
-/* ─── RENDER ─────────────────────────────────────────────── */
-function render() {
-  const socialIcons = {
-    'Email': `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
-    'GH':    `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>`,
-    'in':    `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
-  };
-  setHTML('socials', data.socials.map(x =>
-    `<a class="social" href="${safe(x[1])}" ${x[1].startsWith('mailto') ? '' : 'target="_blank" rel="noopener noreferrer"'} aria-label="${safe(x[0])}" title="${safe(x[0])}">${socialIcons[x[0]] || safe(x[0])}</a>`
-  ).join(''));
-
-  setHTML('cmdActions', Object.keys(data.cmd).map(k =>
-    `<button class="cmd-btn" data-cmd="${safe(k)}" type="button">${safe(k)}</button>`
-  ).join(''));
-
-  setHTML('incidentGrid', data.incident.map((x, n) =>
-    `<article class="card project stage-card reveal">
-       <div class="projecttop">
-         <div class="icon">${n + 1}</div>
-         <span class="case">OPEN STAGE</span>
-       </div>
-       <div class="accent">Incident scenario</div>
-       <h3>${safe(x[0])}</h3>
-       <p>${safe(x[1])}</p>
-       <div class="tags">${x[2].map(t => `<span class="tag">${safe(t)}</span>`).join('')}</div>
-     </article>`
-  ).join(''));
-
-  setHTML('aboutText', data.about.map(p => `<p>${safe(p)}</p>`).join(''));
-
-  setHTML('stats', data.stats.map(x =>
-    `<article class="card stat reveal"><div class="big">${safe(x[0])}</div><div class="muted">${safe(x[1])}</div></article>`
-  ).join(''));
-
-  setHTML('skillsGrid', data.skills.map(x =>
-    `<article class="card skill reveal">
-       <div class="icon">${svgIcons[x[3]] || safe(x[3])}</div>
-       <h3>${safe(x[0])}</h3>
-       <p>${safe(x[1])}</p>
-       <div class="tags">${x[2].map(t => `<span class="tag">${safe(t)}</span>`).join('')}</div>
-     </article>`
-  ).join(''));
-
-  setHTML('projectsGrid', data.projects.map(p =>
-    `<article class="card project reveal" data-id="${safe(p.id)}" tabindex="0" role="button" aria-label="Open project: ${safe(p.title)}">
-       <div class="projecttop">
-         <div class="icon">${svgIcons[p.id === 'siem' ? 'proj_siem' : 'proj_traffic']}</div>
-         <span class="case">OPEN CASE</span>
-       </div>
-       <div class="accent">Threat workflow</div>
-       <h3>${safe(p.title)}</h3>
-       <p>${safe(p.summary)}</p>
-       <div class="tags">${p.tags.map(t => `<span class="tag">${safe(t)}</span>`).join('')}</div>
-     </article>`
-  ).join(''));
-
-  setHTML('educationList', data.education.map(x =>
-    `<article class="card cred reveal">
-       <div class="icon">${svgIcons[x[3]] || safe(x[3])}</div>
-       <div>
-         <h3>${safe(x[0])}</h3>
-         <div class="meta"><span>${safe(x[1])}</span><span>${safe(x[2])}</span></div>
-       </div>
-     </article>`
-  ).join(''));
-
-  setHTML('certList', data.certs.map(x =>
-    `<article class="card cred reveal">
-       <div class="icon">${svgIcons[x[3]] || safe(x[3])}</div>
-       <div>
-         <h3>${safe(x[0])}</h3>
-         <div class="meta"><span>${safe(x[1])}</span><span>${safe(x[2])}</span></div>
-       </div>
-     </article>`
-  ).join(''));
-
-  setHTML('contactList', data.contacts.map(x => {
-    const tag = x[2] ? 'a' : 'div';
-    const href = x[2] ? ` href="${safe(x[2])}"${(!x[2].startsWith('mailto') && !x[2].startsWith('tel')) ? ' target="_blank" rel="noopener noreferrer"' : ''}` : '';
-    return `<${tag} class="card contact reveal"${href}>
-       <div class="icon">${safe(x[3])}</div>
-       <div>
-         <h3>${safe(x[0])}</h3>
-         <p>${safe(x[1])}</p>
-       </div>
-     </${tag}>`;
-  }).join(''));
-}
-
-/* ─── ALERTS / TOAST ─────────────────────────────────────── */
-let alertTimers = [];
-function clearAlertTimers() { alertTimers.forEach(clearTimeout); alertTimers = []; }
-function toast(a) {
-  const f = document.getElementById('alertFeed');
-  if (!f) return;
-  const it = document.createElement('article');
-  it.className = 'toast';
-  it.innerHTML = `<div class="toast-top">
-    <div>
-      <div class="toast-kicker"><span class="toast-sev ${a.sev === 'high' ? 'high' : a.sev === 'med' ? 'med' : ''}">${safe(a.k)}</span></div>
-      <div class="toast-title">${safe(a.title)}</div>
-    </div>
-    <button class="toast-close" type="button" aria-label="Close alert">&times;</button>
-  </div>
-  <div class="toast-body">${safe(a.body)}</div>
-  <div class="toast-actions">
-    <button class="primary" data-go="${safe(a.target)}" type="button">View evidence</button>
-    <button class="ghost" data-dismiss="1" type="button">Later</button>
-  </div>`;
-  f.appendChild(it);
-  it.querySelector('[data-go]').onclick = () => { typeCmd(a.cmd || 'overview'); scrollTo(a.target); closeToast(it); };
-  it.querySelector('[data-dismiss]').onclick = () => closeToast(it);
-  it.querySelector('.toast-close').onclick = () => closeToast(it);
-  alertTimers.push(setTimeout(() => closeToast(it), 7200));
-}
-function closeToast(it) {
-  if (!it || it.classList.contains('closing')) return;
-  it.classList.add('closing');
-  setTimeout(() => { if (it.parentNode) it.remove(); }, 240);
-}
-function runAlerts() {
-  clearAlertTimers();
-  const f = document.getElementById('alertFeed');
-  if (f) f.innerHTML = '';
-  alerts.forEach(a => alertTimers.push(setTimeout(() => toast(a), a.delay)));
-}
-
-/* ─── PROJECT MODAL ─────────────────────────────────────── */
-function openProject(id) {
-  const p = data.projects.find(x => x.id === id);
-  if (!p) return;
-  setHTML('modalBody', `
-    <div class="pill">CASE ${safe(p.id.toUpperCase())}</div>
-    <h3 class="modaltitle">${safe(p.title)}</h3>
-    <p class="lead">${safe(p.summary)}</p>
-    <div class="modalgrid">
-      <div class="box">
-        <h4>Challenge</h4><p>${safe(p.challenge)}</p>
-        <h4 style="margin-top:14px">Approach</h4><p>${safe(p.approach)}</p>
-        <h4 style="margin-top:14px">Details</h4><p>${safe(p.details)}</p>
-      </div>
-      <div class="box">
-        <h4>Highlights</h4>
-        <ul>${p.highlights.map(x => `<li>${safe(x)}</li>`).join('')}</ul>
-        <h4 style="margin-top:14px">Outcomes</h4>
-        <ul>${p.outcomes.map(x => `<li>${safe(x)}</li>`).join('')}</ul>
-      </div>
-    </div>`);
-  document.getElementById('modalBg').classList.add('open');
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal() {
-  document.getElementById('modalBg')?.classList.remove('open');
-  document.getElementById('modal')?.classList.remove('open');
-}
-
-/* ─── THEME TOGGLE ─────────────────────────────────────── */
-(function() {
-  const r = document.documentElement;
-  let d = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  r.setAttribute('data-theme', d);
-  const t = document.getElementById('themeToggle');
-  if (!t) return;
-  function updateIcon() {
-    t.setAttribute('aria-label', `Switch to ${d === 'dark' ? 'light' : 'dark'} mode`);
-    t.innerHTML = d === 'dark'
-      ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`
-      : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-  }
-  t.addEventListener('click', () => { d = d === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', d); updateIcon(); });
-  updateIcon();
-})();
-
-/* ─── BINDINGS ─────────────────────────────────────────── */
-function bind() {
-  const mobile = document.getElementById('mobileToggle');
-  const menu   = document.getElementById('mobileMenu');
-  if (mobile && menu) {
-    mobile.onclick = () => {
-      const open = menu.classList.toggle('open');
-      mobile.setAttribute('aria-expanded', open);
-      mobile.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    };
-    menu.querySelectorAll('a').forEach(a => a.onclick = () => menu.classList.remove('open'));
-  }
-
-  const actions = document.getElementById('cmdActions');
-  if (actions) {
-    actions.onclick = e => {
-      const b = e.target.closest('.cmd-btn');
-      if (b) typeCmd(b.dataset.cmd);
-    };
-  }
-
-  const start = document.getElementById('startGuided');
-  if (start) start.onclick = () => {
-    runAlerts();
-    toast({ sev:'high', k:'GUIDE-START', title:'Guided investigation started', body:'Follow each SOC alert to uncover the candidate evidence in sequence.', target:'incident', cmd:'overview' });
-    scrollTo('incident');
-  };
-
-  const replay = document.getElementById('replayAlerts');
-  if (replay) replay.onclick = runAlerts;
-
-  const projGrid = document.getElementById('projectsGrid');
-  if (projGrid) {
-    projGrid.onclick = e => { const c = e.target.closest('.project'); if (c) openProject(c.dataset.id); };
-    projGrid.onkeydown = e => { const c = e.target.closest('.project'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openProject(c.dataset.id); } };
-  }
-
-  const bg    = document.getElementById('modalBg');
-  const close = document.getElementById('closeModal');
-  if (bg)    bg.onclick    = closeModal;
-  if (close) close.onclick = closeModal;
-  document.onkeydown = e => { if (e.key === 'Escape') closeModal(); };
-
-  // Form
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.onsubmit = e => {
-      e.preventDefault();
-      const st = document.getElementById('formStatus');
-      const fields = ['inp-name','inp-email','inp-message'].map(id => form.querySelector(`#${id}`));
-      fields.forEach(f => f && f.classList.remove('invalid'));
-      const missing = fields.filter(f => !String(f.value).trim());
-      const emailEl = form.querySelector('#inp-email');
-      const emailBad = emailEl && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim());
-      [...missing, emailBad ? emailEl : null].filter(Boolean).forEach(f => f.classList.add('invalid'));
-      if (missing.length || emailBad) {
-        if (st) { st.textContent = 'Please complete name, valid email, and message before sending.'; st.classList.add('show'); }
-        return;
-      }
-      const f2 = new FormData(form);
-      const subject = `Portfolio inquiry from ${f2.get('name').trim()}`;
-      const body = `Name: ${f2.get('name')}\nSender Email: ${f2.get('email')}\n\n${f2.get('message')}`;
-      if (st) { st.textContent = 'Opening your email app with the message pre-filled…'; st.classList.add('show'); }
-      location.href = `mailto:sonikaran8899@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    };
-  }
-}
-
-/* ─── WORD REVEAL OBSERVER ──────────────────────────────── */
-function wordReveal() {
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.word-reveal').forEach(e => io.observe(e));
-}
-
-/* ─── SCROLL REVEAL (opacity-only) ─────────────────────── */
-function reveal() {
-  if (!('IntersectionObserver' in window)) {
-    document.querySelectorAll('.reveal').forEach(e => e.classList.add('visible'));
-    return;
-  }
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(e => io.observe(e));
-}
-
-/* ─── CARD SPOTLIGHT (mouse hover) ──────────────────────── */
-function spotlight() {
-  document.querySelectorAll('.card').forEach(c => {
-    c.onpointermove = e => {
-      const r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-      c.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
-    };
+document.querySelectorAll('.alert-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var card = btn.closest('.alert');
+    var open = card.getAttribute('data-open') === 'true';
+    card.setAttribute('data-open', open ? 'false' : 'true');
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
   });
+});
+
+var ro = document.getElementById('readout');
+document.querySelectorAll('.tech').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.tech').forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+    b.setAttribute('aria-pressed','true');
+    var state = b.classList.contains('cov') ? 'Detection written and tested'
+              : b.classList.contains('part') ? 'Telemetry exists, rule not tuned' : 'Known gap';
+    var id = b.querySelector('.tid').textContent;
+    var name = b.textContent.replace(id,'').replace(/[✓~·]/g,'').trim();
+    var html = '<strong>' + id + ' · ' + name + '</strong> — ' + state + '.<br>' + b.getAttribute('data-d');
+    if (reduce){ ro.innerHTML = html; return; }
+    ro.classList.add('fade');
+    setTimeout(function(){ ro.innerHTML = html; ro.classList.remove('fade'); }, 180);
+  });
+});
+
+function countUp(el){
+  var to = parseInt(el.getAttribute('data-to'), 10);
+  if (reduce){ el.textContent = to; return; }
+  var start = performance.now(), dur = 900;
+  function tick(now){
+    var p = Math.min((now - start) / dur, 1);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
-/* ─── PROGRESS BAR ───────────────────────────────────────── */
-document.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  const pct = h.scrollHeight - h.clientHeight ? h.scrollTop / (h.scrollHeight - h.clientHeight) * 100 : 0;
-  const p = document.getElementById('progress');
-  if (p) p.style.width = pct + '%';
+if ('IntersectionObserver' in window){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var t = e.target;
+      t.classList.add('in');
+      if (t.id === 'metrics') t.querySelectorAll('.m-num').forEach(countUp);
+      if (t.id === 'matrix'){
+        t.querySelectorAll('.tech').forEach(function(x, i){ x.style.transitionDelay = (i * 18) + 'ms'; });
+        t.classList.add('lit');
+      }
+      if (t.id === 'tl') t.classList.add('drawn');
+      io.unobserve(t);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rise').forEach(function(el){ io.observe(el); });
+} else {
+  document.querySelectorAll('.rise').forEach(function(el){ el.classList.add('in'); });
+  document.getElementById('matrix').classList.add('lit');
+  document.getElementById('tl').classList.add('drawn');
+  document.querySelectorAll('.m-num').forEach(function(el){ el.textContent = el.getAttribute('data-to'); });
+}
+
+var rail = document.getElementById('rail'), last = 0;
+window.addEventListener('scroll', function(){
+  var y = window.scrollY;
+  if (y > 460 && y > last) rail.classList.add('show');
+  else if (y < last - 4 || y < 460) rail.classList.remove('show');
+  last = y;
 }, { passive: true });
-
-/* ─── INIT ──────────────────────────────────────────────── */
-function init() {
-  render();
-  bind();
-  reveal();
-  spotlight();
-  typeCmd('overview');
-  wordReveal();
-  setTimeout(() => toast(alerts[0]), 1000);
-}
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-else init();
 </script>
 </body>
 </html>
