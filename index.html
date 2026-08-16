@@ -280,6 +280,66 @@ hr{border:0;border-top:1px solid var(--hair);margin:0}
 @media (max-width:560px){ .certs{grid-template-columns:repeat(2,1fr);gap:12px} }
 @media (max-width:380px){ .certs{grid-template-columns:1fr;max-width:220px;margin:0 auto} }
 
+/* ── Logo trace loader ──────────────────────────────────────────────────── */
+.ks-loader{position:fixed;inset:0;z-index:200;display:flex;align-items:center;
+  justify-content:center;background:var(--paper);
+  transition:opacity .5s var(--glide);pointer-events:none}
+.ks-loader[data-phase="loop"],.ks-loader[data-phase="closingOutline"],
+.ks-loader[data-phase="fadingFill"]{pointer-events:auto}
+.ks-loader.ks-hide{opacity:0}
+.ks-loader svg{width:64px;height:64px;overflow:visible;color:var(--signal)}
+.ks-loader .ks-chip{fill:var(--signal);opacity:0;
+  transition:opacity .5s var(--ease)}
+.ks-loader[data-phase="fadingFill"] .ks-chip,
+.ks-loader[data-phase="done"] .ks-chip{opacity:1}
+.ks-loader[data-phase="fadingFill"] .ks-mark,
+.ks-loader[data-phase="done"] .ks-mark{stroke:#fff}
+.ks-loader .ks-ghost{opacity:.16}
+.ks-loader .ks-loop{stroke-linecap:round;stroke-linejoin:round}
+.ks-loader[data-phase="loop"] .ks-loop{animation:ks-trace-loop var(--ks-loop-s,1.1s) linear infinite}
+.ks-loader[data-phase="closingOutline"] .ks-loop,
+.ks-loader[data-phase="fadingFill"] .ks-loop,
+.ks-loader[data-phase="done"] .ks-loop{stroke-dasharray:1 0;stroke-dashoffset:0;
+  transition:stroke-dasharray .38s var(--glide),stroke-dashoffset .38s var(--glide)}
+@keyframes ks-trace-loop{ to{ stroke-dashoffset:-1; } }
+@media (prefers-reduced-motion:reduce){
+  .ks-loader{transition:none}
+  .ks-loader[data-phase="loop"] .ks-loop{animation:none;stroke-dasharray:1 0;stroke-dashoffset:0}
+}
+
+/* ── Scramble reveal ─────────────────────────────────────────────────────── */
+.scramble{font-variant-ligatures:none}
+.scramble[data-scrambling="true"]{font-family:var(--mono);letter-spacing:-.01em}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+
+
+/* ── Telemetry flow (Sankey) ─────────────────────────────────────────────── */
+.flowbox{margin:22px 0 0;padding:20px 18px 16px;border-radius:14px;
+  background:var(--sub);border:1px solid var(--hair);overflow:hidden}
+.sankey{width:100%;height:auto;display:block;overflow:visible}
+.sk-flow{fill:none;stroke:var(--slate);opacity:.22;stroke-linecap:round;
+  transition:opacity .28s var(--ease),stroke .28s var(--ease)}
+.sk-flow.sk-gap{stroke-dasharray:5 8;opacity:.3;stroke:var(--amber)}
+.flowbox:hover .sk-flow{opacity:.14}
+.flowbox .sk-flow:hover,.sk-flow.lit{opacity:.55;stroke:var(--signal)}
+.sk-node rect{fill:var(--raised);stroke:var(--hair);stroke-width:1;
+  transition:stroke .28s var(--ease)}
+.sk-node:hover rect{stroke:var(--signal)}
+.sk-node.sk-sink rect{fill:var(--signal-wash);stroke:color-mix(in srgb,var(--signal) 45%,var(--hair))}
+.sk-l{font-family:var(--mono);font-size:11.5px;fill:var(--ink);text-anchor:middle;font-weight:500}
+.sk-s{font-family:var(--mono);font-size:9.5px;fill:var(--faint);text-anchor:middle}
+.flow-key{display:flex;flex-wrap:wrap;gap:16px;margin:16px 2px 0;font-size:12.5px;color:var(--slate)}
+.flow-key span{display:flex;align-items:center;gap:7px}
+.flow-key i{width:20px;height:3px;border-radius:2px;background:var(--slate);opacity:.4}
+.flow-key i.dash{background:repeating-linear-gradient(90deg,var(--amber) 0 4px,transparent 4px 8px);opacity:1}
+.flow-note{margin:14px 0 0;font-size:14px;color:var(--slate);max-width:62ch}
+@media (max-width:560px){
+  .flowbox{padding:14px 10px 12px;border-radius:11px}
+  .sk-l{font-size:12.5px} .sk-s{font-size:10.5px}
+}
+
 .rise{opacity:0;transform:translateY(9px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
 .rise.in{opacity:1;transform:none}
 
@@ -325,6 +385,13 @@ hr{border:0;border-top:1px solid var(--hair);margin:0}
 </style>
 </head>
 <body>
+<div class="ks-loader" id="ksLoader" data-phase="loop" role="status" aria-label="Loading Karan Soni's portfolio">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect class="ks-chip" x="0" y="0" width="32" height="32" rx="7"></rect>
+    <path class="ks-mark ks-ghost" d="M4 20h5l3-9 4 14 3-8h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path class="ks-mark ks-loop" d="M4 20h5l3-9 4 14 3-8h9" stroke="currentColor" stroke-width="2.4" pathLength="1" stroke-dasharray="0.16 0.84"></path>
+  </svg>
+</div>
 <a class="skip" href="#main">Skip to content</a>
 
 <!-- ── Dynamic island ─────────────────────────────────────────────────────── -->
@@ -377,10 +444,10 @@ hr{border:0;border-top:1px solid var(--hair);margin:0}
 <hr>
 
 <section class="sec" id="s-detections">
-  <h2><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3.5v6c0 4.6-3.4 8.9-8 10.5-4.6-1.6-8-5.9-8-10.5v-6z"/><path d="M9 12l2 2 4-4"/></svg>Detections</h2>
+  <h2><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3.5v6c0 4.6-3.4 8.9-8 10.5-4.6-1.6-8-5.9-8-10.5v-6z"/><path d="M9 12l2 2 4-4"/></svg><span class="scramble" data-text="Detections">Detections</span></h2>
   <p class="lede">Rules I wrote in my lab. Open one to see the query, what I tuned, and why.</p>
 
-  <div class="qhead"><span>Elastic SIEM · lab.internal</span><span class="meter" id="meter" aria-hidden="true">[░░░░░░░░░░░░░░]</span></div>
+  <div class="qhead"><span><span class="scramble" data-text="Elastic SIEM · lab.internal">Elastic SIEM · lab.internal</span></span><span class="meter" id="meter" aria-hidden="true">[░░░░░░░░░░░░░░]</span></div>
 
   <article class="alert" data-open="true">
     <button class="alert-btn" aria-expanded="true">
@@ -615,6 +682,14 @@ hr{border:0;border-top:1px solid var(--hair);margin:0}
 └── secondary/    <span class="dim">security onion 2.4 · splunk uf · zabbix</span>
 </pre>
   </div>
+  <div class="flowbox">
+    <svg class="sankey" viewBox="0 0 720 400" role="img" aria-label="Telemetry flow: five lab hosts feed three collectors, which feed Elastic SIEM. Metasploitable has no endpoint agent, so it reaches the SIEM only through Zeek network data."><path class="sk-flow f-agent" d="M128.0,51.2 C212.0,51.2 212.0,106.7 296.0,106.7" stroke-width="20"/><path class="sk-flow f-agent" d="M128.0,125.6 C212.0,125.6 212.0,106.7 296.0,106.7" stroke-width="24"/><path class="sk-flow f-syslog" d="M128.0,200.0 C212.0,200.0 212.0,200.0 296.0,200.0" stroke-width="13"/><path class="sk-flow f-zeek" d="M128.0,274.4 C212.0,274.4 212.0,293.3 296.0,293.3" stroke-width="15"/><path class="sk-flow f-zeek sk-gap" d="M128.0,348.8 C212.0,348.8 212.0,293.3 296.0,293.3" stroke-width="11"/><path class="sk-flow f-agent" d="M424.0,106.7 C508.0,106.7 508.0,200.0 592.0,200.0" stroke-width="44"/><path class="sk-flow f-syslog" d="M424.0,200.0 C508.0,200.0 508.0,200.0 592.0,200.0" stroke-width="13"/><path class="sk-flow f-zeek" d="M424.0,293.3 C508.0,293.3 508.0,200.0 592.0,200.0" stroke-width="26"/><g class="sk-node "><rect x="0" y="28.2" width="128" height="46" rx="10"/><text x="64.0" y="48.2" class="sk-l">WIN-DC01</text><text x="64.0" y="62.2" class="sk-s">identity</text></g><g class="sk-node "><rect x="0" y="102.6" width="128" height="46" rx="10"/><text x="64.0" y="122.6" class="sk-l">WIN-WKS02</text><text x="64.0" y="136.6" class="sk-s">endpoint</text></g><g class="sk-node "><rect x="0" y="177.0" width="128" height="46" rx="10"/><text x="64.0" y="197.0" class="sk-l">pfSense</text><text x="64.0" y="211.0" class="sk-s">perimeter</text></g><g class="sk-node "><rect x="0" y="251.4" width="128" height="46" rx="10"/><text x="64.0" y="271.4" class="sk-l">Kali</text><text x="64.0" y="285.4" class="sk-s">offense</text></g><g class="sk-node "><rect x="0" y="325.8" width="128" height="46" rx="10"/><text x="64.0" y="345.8" class="sk-l">Metasploitable</text><text x="64.0" y="359.8" class="sk-s">target</text></g><g class="sk-node "><rect x="296" y="83.7" width="128" height="46" rx="10"/><text x="360.0" y="103.7" class="sk-l">Elastic Agent</text><text x="360.0" y="117.7" class="sk-s">Sysmon · Fleet</text></g><g class="sk-node "><rect x="296" y="177.0" width="128" height="46" rx="10"/><text x="360.0" y="197.0" class="sk-l">Syslog</text><text x="360.0" y="211.0" class="sk-s">firewall events</text></g><g class="sk-node "><rect x="296" y="270.3" width="128" height="46" rx="10"/><text x="360.0" y="290.3" class="sk-l">Zeek</text><text x="360.0" y="304.3" class="sk-s">conn · dns · http</text></g><g class="sk-node sk-sink"><rect x="592" y="177.0" width="128" height="46" rx="10"/><text x="656.0" y="197.0" class="sk-l">Elastic SIEM</text><text x="656.0" y="211.0" class="sk-s">9 rules · KQL</text></g></svg>
+  </div>
+  <div class="flow-key">
+    <span><i></i>Telemetry reaching the SIEM</span>
+    <span><i class="dash"></i>Network data only — no endpoint agent</span>
+  </div>
+  <p class="flow-note">Every host in the lab, and how its logs actually get to Elastic. The dashed line is the gap I found the hard way: Metasploitable is Linux and never got an agent, so when I ran the SMB exploit against it, Zeek saw the traffic and the endpoint side saw nothing at all.</p>
   <p class="tree-note">Security Onion runs in EVAL mode because of RAM limits. Zabbix monitoring broke early on from DHCP-driven IP drift, which is how I learned to pin the monitored hosts.</p>
 </section>
 
@@ -676,7 +751,120 @@ hr{border:0;border-top:1px solid var(--hair);margin:0}
 
 </div>
 
+
 <script>
+/* ── Logo trace loader: loop -> closingOutline -> fadingFill -> done ────── */
+(function(){
+  var el = document.getElementById('ksLoader');
+  if (!el) return;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var done = false;
+  var shownAt = performance.now();
+  var MIN_MS = 420;      // never flash for a single frame
+  var HARD_MS = 3200;    // never block longer than this, no matter what
+  var STEP_MS = 260;     // closingOutline -> fadingFill -> done pacing
+
+  function setPhase(p){ el.setAttribute('data-phase', p); }
+
+  function finish(){
+    if (done) return;
+    done = true;
+    setPhase('closingOutline');
+    setTimeout(function(){
+      setPhase('fadingFill');
+      setTimeout(function(){
+        setPhase('done');
+        el.classList.add('ks-hide');
+        var remove = function(){ if (el.parentNode) el.parentNode.removeChild(el); };
+        el.addEventListener('transitionend', remove, {once:true});
+        setTimeout(remove, 700); // fallback: transitionend can fail to fire
+      }, STEP_MS);
+    }, STEP_MS);
+  }
+
+  if (reduceMotion){
+    setPhase('fadingFill');
+    requestAnimationFrame(function(){
+      setPhase('done');
+      el.classList.add('ks-hide');
+      setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 80);
+    });
+  } else {
+    var ready = function(){
+      var elapsed = performance.now() - shownAt;
+      var wait = Math.max(0, MIN_MS - elapsed);
+      setTimeout(finish, wait);
+    };
+    if (document.readyState === 'complete') ready();
+    else window.addEventListener('load', ready, {once:true});
+    setTimeout(finish, HARD_MS); // absolute fallback, never relies on load firing
+  }
+})();
+
+
+/* ── Scramble text: decrypt on scroll-in. Accessible, reduced-motion aware. */
+(function(){
+  var CHARS = "-_~`!@#$%^&*()+=[]{}|;:,.<>?/\\";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nodes = [].slice.call(document.querySelectorAll('.scramble'));
+  if (!nodes.length) return;
+
+  function segments(text){ return Array.from(text); }
+  function rand(){ return CHARS[(Math.random()*CHARS.length)|0]; }
+
+  function run(el){
+    if (el.getAttribute('data-scrambling') === 'true') return; // already mid-run, skip
+    var text = el.getAttribute('data-text') || el.textContent;
+    // Accessible: real text stays for screen readers, visual layer scrambles.
+    el.setAttribute('aria-label', text);
+    var vis = document.createElement('span');
+    vis.setAttribute('aria-hidden','true');
+    var sr = document.createElement('span');
+    sr.className = 'sr-only';
+    sr.textContent = text;
+    el.textContent = '';
+    el.appendChild(vis); el.appendChild(sr);
+
+    if (reduceMotion){ vis.textContent = text; return; }
+
+    var segs = segments(text), n = segs.length;
+    var revealed = 0;
+    var step = Math.max(1, Math.ceil(n / 48));
+    el.setAttribute('data-scrambling','true');
+
+    function frame(){
+      var out = '';
+      for (var i=0;i<n;i++){
+        out += (segs[i].trim()==='' || i<revealed) ? segs[i] : rand();
+      }
+      vis.textContent = out;
+      revealed = Math.min(n, revealed + step);
+      if (revealed >= n){
+        vis.textContent = text;
+        el.removeAttribute('data-scrambling');
+        return;
+      }
+      setTimeout(frame, 34);
+    }
+    frame();
+  }
+
+  if (!('IntersectionObserver' in window)){
+    nodes.forEach(function(el){ run(el); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ run(e.target); } // stays observed: replays every time it re-enters view
+    });
+  }, {threshold:0.6});
+  nodes.forEach(function(el){ io.observe(el); });
+})();
+
+
+
+
+
 var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var EMAIL = 'sonikaran8899@gmail.com';
 var S = function(d,c,f){ return '<svg viewBox="0 0 24 24" fill="'+(f?c:'none')+'" stroke="'+c+
